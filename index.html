@@ -716,22 +716,20 @@
 
     try {
         const response = await fetch(url);
-        const rawData = await response.json();
+        const data = await response.json();
         
-        // Log untuk melihat format data asli di console
-        console.log("Data mentah dari Sheets:", rawData);
+        console.log("Data yang diterima:", data); // Lihat ini di Console F12
 
-        // MENGUBAH ARRAY 2D MENJADI ARRAY OF OBJECTS
-        // Kita asumsikan baris pertama (index 0) adalah header (nama kolom)
-        const headers = rawData[0];
-        const rows = rawData.slice(1);
-        
-        currentSOP = rows.map(row => {
-            let obj = {};
-            headers.forEach((header, index) => {
-                obj[header] = row[index];
-            });
-            return obj;
+        // Jika data berbentuk array, kita gunakan langsung
+        if (Array.isArray(data)) {
+            currentSOP = data; 
+            console.log("Jumlah data terbaca:", currentSOP.length);
+            renderFilters();
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
         });
 
         console.log("Data berhasil diproses:", currentSOP);
