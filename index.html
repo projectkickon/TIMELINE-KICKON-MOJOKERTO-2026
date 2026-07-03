@@ -711,27 +711,29 @@
             setupAction();
         }
 
-        function useLocalStorage() {
-            // Load SOP
-            const savedSOP = localStorage.getItem('kickon_mojokerto_sop_db');
-            if (savedSOP) {
-                currentSOP = JSON.parse(savedSOP);
-                
-                // Auto-patch migration: ensures Rangga and Reynard replace any stale 'Helen' values in the browser storage
-                currentSOP.forEach(t => {
-                    if (t.pic === 'Helen' || t.pic === 'Helen Sumali' || t.pic === 'Helen (Activation)') {
-                        if (t.divisi === 'Pertandingan') {
-                            t.pic = 'Rangga';
-                        } else if (t.divisi === 'Activation') {
-                            t.pic = 'Reynard';
-                        }
-                    }
-                });
-                localStorage.setItem('kickon_mojokerto_sop_db', JSON.stringify(currentSOP));
-            } else {
-                currentSOP = [...DEFAULT_SOP];
-                localStorage.setItem('kickon_mojokerto_sop_db', JSON.stringify(currentSOP));
-            }
+        async function useLocalStorage() {
+    const url = 'https://script.google.com/macros/s/AKfycbzx4crnL3qQeSaziaZ-fPQRUi0rTuLJhcZ1Ay3T3gKpFcTNBPi8AAt63ZIwWli0OiWNbg/exec';
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        // Asumsi: data adalah array 2D dari sheets. 
+        // Jika dashboardmu membutuhkan format objek tertentu, 
+        // mungkin perlu sedikit penyesuaian di bagian ini.
+        currentSOP = data; 
+        
+        console.log("Data berhasil dimuat dari server!");
+        renderFilters(); // Panggil fungsi render ulang setelah data masuk
+    } catch (error) {
+        console.error("Gagal mengambil data dari server, menggunakan cadangan lokal:", error);
+        const savedSOP = localStorage.getItem('kickon_mojokerto_sop_db');
+        if (savedSOP) {
+            currentSOP = JSON.parse(savedSOP);
+            renderFilters();
+        }
+    }
+}
 
             // Load Roadshow list
             const savedRoadshow = localStorage.getItem('kickon_mojokerto_roadshow_prioritas');
