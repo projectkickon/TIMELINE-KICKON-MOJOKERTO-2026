@@ -716,22 +716,36 @@
 
     try {
         const response = await fetch(url);
-        const data = await response.json();
+        const rawData = await response.json();
         
-        // Asumsi: data adalah array 2D dari sheets. 
-        // Jika dashboardmu membutuhkan format objek tertentu, 
-        // mungkin perlu sedikit penyesuaian di bagian ini.
-        currentSOP = data; 
+        // Log untuk melihat format data asli di console
+        console.log("Data mentah dari Sheets:", rawData);
+
+        // MENGUBAH ARRAY 2D MENJADI ARRAY OF OBJECTS
+        // Kita asumsikan baris pertama (index 0) adalah header (nama kolom)
+        const headers = rawData[0];
+        const rows = rawData.slice(1);
         
-        console.log("Data berhasil dimuat dari server!");
-        renderFilters(); // Panggil fungsi render ulang setelah data masuk
+        currentSOP = rows.map(row => {
+            let obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = row[index];
+            });
+            return obj;
+        });
+
+        console.log("Data berhasil diproses:", currentSOP);
+        renderFilters(); 
     } catch (error) {
-        console.error("Gagal mengambil data dari server, menggunakan cadangan lokal:", error);
+        console.error("Gagal load dari server:", error);
+        // Fallback ke lokal jika gagal
         const savedSOP = localStorage.getItem('kickon_mojokerto_sop_db');
         if (savedSOP) {
             currentSOP = JSON.parse(savedSOP);
             renderFilters();
         }
+    }
+}
     }
 }
 
