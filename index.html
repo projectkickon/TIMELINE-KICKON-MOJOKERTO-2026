@@ -25,39 +25,26 @@
 </head>
 <body class="min-h-screen text-slate-800 flex flex-col bg-slate-50/50">
 
-    <!-- TOP GLOWING HEADER -->
+    <!-- TOP HEADER -->
     <header class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-xl border-b border-indigo-500/20 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div class="shrink-0">
                     <img src="Screenshot 2026-07-03 203916.jpg" class="h-14 w-14 rounded-xl object-cover border border-indigo-400/30 bg-slate-950 shadow-md" alt="Logo KICKON" onerror="this.src='https://placehold.co/150x150/1e1b4b/ffffff?text=KICKON'">
                 </div>
                 <div>
-                    <div class="flex items-center gap-2 flex-wrap">
+                    <div class="flex items-center gap-2">
                         <span class="bg-indigo-500/20 text-indigo-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-indigo-500/30 uppercase tracking-widest">SOP & Timeline Terintegrasi</span>
                         <span id="sync-status-badge" class="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full border border-blue-500/30 uppercase tracking-widest flex items-center gap-1">
-                            <i class="fa-solid fa-cloud"></i> Cloud Database Aktif
+                            <i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan Cloud...
                         </span>
                     </div>
-                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight mt-1 flex items-center gap-2">
-                        KICKON Futsal Mojokerto 2026
-                    </h1>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight mt-1">KICKON Futsal Mojokerto 2026</h1>
                 </div>
             </div>
-            
-            <div class="relative shrink-0">
-                <button id="dropdown-toggle-btn" onclick="toggleDropdown()" class="bg-slate-800/80 hover:bg-slate-800 text-white p-2.5 rounded-xl border border-slate-700 transition flex items-center justify-center">
-                    <i class="fa-solid fa-ellipsis-vertical text-base"></i>
-                </button>
-                <div id="actions-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-52 bg-white rounded-xl shadow-xl border border-slate-200/80 py-1.5 z-50">
-                    <button onclick="triggerResetDefaultData(); closeDropdown()" class="w-full text-left px-4 py-2 text-xs text-rose-600 hover:bg-slate-50 font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-arrows-rotate"></i> Reset Default SOP
-                    </button>
-                    <button onclick="exportToCSV(); closeDropdown()" class="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-file-csv text-emerald-600"></i> Export CSV Data
-                    </button>
-                </div>
-            </div>
+            <button onclick="syncSOPFromGoogleSheets()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Tarik Data Sheets (110 Job)
+            </button>
         </div>
     </header>
 
@@ -90,35 +77,8 @@
     <!-- MAIN BODY SECTION -->
     <main class="flex-grow max-w-7xl mx-auto px-6 py-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- LEFT COLUMN: MILESTONES, REFERENCES & STATISTICS -->
+        <!-- LEFT COLUMN: MILESTONES -->
         <div class="lg:col-span-4 flex flex-col gap-6">
-            
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 relative overflow-hidden">
-                <h2 class="text-sm font-extrabold text-slate-900 mb-4 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-hourglass-half text-rose-500"></i> Milestone Kunci Event
-                </h2>
-                <div class="space-y-4">
-                    <div onclick="openMilestoneManager('School Visit', 'visit')" class="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-emerald-50/30 cursor-pointer transition">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 shrink-0"></span>
-                        <div>
-                            <p class="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-1">
-                                <span id="m-visit-date">13 Juli 2026</span> (Pra-MPLS)
-                            </p>
-                            <h4 class="text-xs font-bold text-slate-800">School Visit (1 Hari, 3 Sekolah)</h4>
-                        </div>
-                    </div>
-                    <div onclick="openMilestoneManager('Roadshow Masif', 'roadshow')" class="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-sky-50/30 cursor-pointer transition">
-                        <span class="w-2.5 h-2.5 rounded-full bg-sky-500 mt-1 shrink-0"></span>
-                        <div>
-                            <p class="text-[10px] font-bold text-sky-600 uppercase flex items-center gap-1">
-                                <span id="m-roadshow-date">15 - 22 Juli 2026</span>
-                            </p>
-                            <h4 class="text-xs font-bold text-slate-800">Roadshow Masif (5 Hari, 5 Sekolah)</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- PRIORITAS ROADSHOW -->
             <div class="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-5 border border-slate-800 shadow-md">
                 <span class="bg-indigo-500/30 text-indigo-300 text-[9px] font-bold px-2 py-0.5 rounded uppercase">Tujuan Sosialisasi</span>
@@ -134,59 +94,38 @@
                 <h2 class="text-[11px] font-bold text-slate-900 mb-3 uppercase flex items-center gap-1.5">
                     <i class="fa-solid fa-chart-pie text-indigo-600"></i> Progress Divisi
                 </h2>
-                <div class="space-y-2" id="divisi-progress-bars">
-                </div>
+                <div class="space-y-2" id="divisi-progress-bars"></div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN: INTERACTIVE JOBDESK MANAGER & TIMELINE -->
+        <!-- RIGHT COLUMN: INTERACTIVE JOBDESK MANAGER -->
         <div class="lg:col-span-8 flex flex-col gap-6">
-
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 flex flex-col gap-3">
                 <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Saring Tugas Divisi KICKON:</span>
-                    <span class="text-[11px] text-indigo-600 font-bold bg-indigo-50 px-2 py-0.5 rounded-full" id="filter-count-badge">0 Terpilih</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase">Saring Tugas Divisi:</span>
                 </div>
-                <div class="flex flex-wrap gap-1.5" id="filter-buttons-container">
-                    <!-- Will render dynamically -->
-                </div>
+                <div class="flex flex-wrap gap-1.5" id="filter-buttons-container"></div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col">
                 <div class="p-5 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between md:items-center gap-3">
-                    <div>
-                        <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-indigo-600"></i> SOP dan Timeline kerja
-                        </h2>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2">
-                        <select id="task-sorting-select" onchange="changeSorting(this.value)" class="bg-white border border-slate-200 text-xs py-2 px-2.5 rounded-xl cursor-pointer">
-                            <option value="deadline_asc">Tenggat Terdekat 🗓️</option>
-                            <option value="status_belum">Status: Belum Mulai 📌</option>
-                            <option value="status_progress">Status: On Progress ⚡</option>
-                            <option value="status_selesai">Status: Selesai ✅</option>
-                        </select>
-                        <input type="text" id="task-search-bar" oninput="searchTasks()" placeholder="Cari SOP atau PIC..." class="w-44 bg-white border border-slate-200 text-xs py-2 px-3.5 rounded-xl" />
-                        <button onclick="addNewTask()" class="bg-indigo-600 text-white font-bold px-3 py-2 rounded-xl text-[11px]">
-                            <i class="fa-solid fa-plus"></i> Tambah Tugas
-                        </button>
-                    </div>
+                    <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-indigo-600"></i> SOP dan Timeline
+                    </h2>
+                    <input type="text" id="task-search-bar" oninput="searchTasks()" placeholder="Cari SOP atau PIC..." class="w-full md:w-44 bg-white border border-slate-200 text-xs py-2 px-3.5 rounded-xl" />
                 </div>
-
                 <div class="overflow-x-auto w-full">
                     <table class="w-full text-left border-collapse min-w-[800px]">
                         <thead>
                             <tr class="bg-slate-50 text-slate-400 text-[10px] font-bold uppercase border-b border-slate-200">
                                 <th class="py-3 px-4 w-32">Divisi</th>
-                                <th class="py-3 px-4 w-96">SOP / Rincian Jobdesk Lengkap</th>
+                                <th class="py-3 px-4 w-96">SOP / Rincian Jobdesk</th>
                                 <th class="py-3 px-4 w-32">Progress</th>
                                 <th class="py-3 px-4 w-36">Deadline</th>
                                 <th class="py-3 px-4 w-40">PIC</th>
-                                <th class="py-3 px-4 w-16 text-center">Hapus</th>
                             </tr>
                         </thead>
-                        <tbody id="spreadsheet-body" class="divide-y divide-slate-100 text-xs">
-                        </tbody>
+                        <tbody id="spreadsheet-body" class="divide-y divide-slate-100 text-xs"></tbody>
                     </table>
                 </div>
             </div>
@@ -196,7 +135,7 @@
     <!-- KODE JAVASCRIPT & FIREBASE -->
     <script>
         // =========================================================
-        // 1. MASUKKAN KONFIGURASI FIREBASE KAMU DI BAWAH INI
+        // 1. MASUKKAN KONFIGURASI FIREBASE DI BAWAH INI
         // =========================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCWKfbrJXNUerJyiFtBRO8oqLRPbw4qhtg",
@@ -207,97 +146,152 @@
             appId: "1:231877963387:web:e1db93ee8948e26682bcde"
         };
 
-        // 2. INISIALISASI FIREBASE
+        // 2. MASUKKAN ID SPREADSHEET ANDA UNTUK MENARIK 110 DATA
+        const SOP_SHEET_ID = '1SKiY08EURsNnpxqIfl5CQtpUtBFt_lEPCvBBYUTrnbo'; 
+
+        // =========================================================
+
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Variabel Data
         let currentSOP = [];
-        let prioritasRoadshow = [];
+        let prioritasRoadshow = [
+            { id: 1, nama: 'SMKN 1 MOJOKERTO', tgl: '2026-07-15' },
+            { id: 2, nama: 'SMAN 2 MOJOKERTO', tgl: '2026-07-17' },
+            { id: 3, nama: 'SMAN 1 PURI', tgl: '2026-07-19' },
+            { id: 4, nama: 'SMAN 1 SOOKO', tgl: '2026-07-21' },
+            { id: 5, nama: 'SMAN 3 MOJOKERTO', tgl: '2026-07-22' }
+        ];
         let activeFilter = 'All';
         let searchQuery = '';
-        let currentSort = 'deadline_asc';
-        let visibleLimit = 100; // Tampilkan banyak agar tidak ribet pagination dulu
-
-        // DATA DEFAULT (Jika database kosong)
-        const DEFAULT_SOP = [
-            { id: 1, divisi: 'COC', task: 'Menyusun Grand Design KICKON 2026', deadline: '2026-06-20', progress: 'Belum Mulai', pic: 'Irfan' },
-            { id: 2, divisi: 'Pertandingan', task: 'Menyusun Booklet Regulasi', deadline: '2026-06-24', progress: 'Belum Mulai', pic: 'Rangga' }
-        ];
-
-        const DEFAULT_ROADSHOW = [
-            { id: 1, nama: 'SMKN 1 MOJOKERTO', tgl: '2026-07-15' },
-            { id: 2, nama: 'SMAN 2 MOJOKERTO', tgl: '2026-07-17' }
-        ];
 
         const DIVISI_STYLES = {
             'COC': { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
             'Pertandingan': { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
             'Activation': { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
-            'Umum': { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200' }
+            'Finance': { bg: 'bg-cyan-50', text: 'text-cyan-700', border: 'border-cyan-200' },
+            'Ticketing': { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
+            'Kesekre': { bg: 'bg-violet-50', text: 'text-violet-700', border: 'border-violet-200' },
+            'LO': { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
+            'Equipment': { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-200' },
+            'Humas': { bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200' },
+            'Medkraf': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+            'Area': { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200' }
         };
 
-        function getStyle(divisi) {
-            return DIVISI_STYLES[divisi] || DIVISI_STYLES['Umum'];
-        }
+        function getStyle(divisi) { return DIVISI_STYLES[divisi] || DIVISI_STYLES['Area']; }
 
-        // =========================================================
-        // 3. FUNGSI DATABASE: BACA DAN TULIS KE FIREBASE
-        // =========================================================
-        
-        // Fungsi ini dipanggil otomatis saat web dibuka
+        // MENGAKTIFKAN FIREBASE REALTIME
         auth.signInAnonymously().then(() => {
-            console.log("Terhubung ke Firebase secara anonim");
-            
-            // MENDENGARKAN PERUBAHAN DATA SECARA REAL-TIME
             db.collection("kickon_database").doc("dashboard_utama").onSnapshot((doc) => {
                 if (doc.exists) {
-                    // Jika data ada di Firebase, gunakan data itu
                     currentSOP = doc.data().sopData || [];
-                    prioritasRoadshow = doc.data().roadshowData || [];
+                    prioritasRoadshow = doc.data().roadshowData || prioritasRoadshow;
+                    
+                    document.getElementById('sync-status-badge').innerHTML = '<i class="fa-solid fa-cloud"></i> Firebase Cloud Aktif';
+                    document.getElementById('sync-status-badge').classList.replace('text-blue-300', 'text-emerald-300');
+                    renderStatsAndDashboard();
+                    
+                    // Jika data kosong, otomatis tarik dari Sheets
+                    if (currentSOP.length === 0) syncSOPFromGoogleSheets();
                 } else {
-                    // Jika database masih kosong sama sekali, pakai data default
-                    currentSOP = [...DEFAULT_SOP];
-                    prioritasRoadshow = [...DEFAULT_ROADSHOW];
-                    saveStateToFirebase(); // Simpan default ini ke database pertama kali
+                    syncSOPFromGoogleSheets();
                 }
-                
-                // Update tampilan web
-                renderStatsAndDashboard();
             });
-        }).catch((error) => {
-            console.error("Gagal terhubung ke Firebase Auth:", error);
-            alert("Gagal terhubung ke server. Pastikan konfigurasi Firebase benar.");
+        }).catch(err => {
+            alert("Gagal koneksi Firebase. Cek Config Anda.");
+            console.error(err);
         });
 
-        // FUNGSI UNTUK MENYIMPAN KE FIREBASE (Menggantikan LocalStorage)
+        // SIMPAN KE FIREBASE
         function saveStateToFirebase() {
             db.collection("kickon_database").doc("dashboard_utama").set({
                 sopData: currentSOP,
                 roadshowData: prioritasRoadshow
-            }).then(() => {
-                console.log("Perubahan berhasil disimpan ke Cloud!");
-            }).catch((error) => {
-                console.error("Error menyimpan data:", error);
-            });
+            }, { merge: true });
         }
 
-        // =========================================================
-        // FUNGSI-FUNGSI LOGIKA WEB (Sama seperti sebelumnya)
-        // =========================================================
+        // TARIK 110 DATA DARI SHEETS & GABUNGKAN
+        async function syncSOPFromGoogleSheets() {
+            if (SOP_SHEET_ID === 'TARUH_ID_SPREADSHEET_SOP_DISINI') {
+                alert("Harap masukkan ID Spreadsheet Anda di dalam kode HTML.");
+                return;
+            }
 
-        function formatReadableDate(dateString) {
-            if (!dateString) return 'Belum Diatur';
-            const parts = dateString.split('-');
-            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-            return dateString;
+            document.getElementById('sync-status-badge').innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> Menarik 110 Data Sheets...';
+
+            const sheetsMapping = [
+                { div: 'COC', sheet: 'Chief Organizing Committee ' },
+                { div: 'Pertandingan', sheet: 'Match Commisioner' },
+                { div: 'Activation', sheet: 'Project activation' },
+                { div: 'Finance', sheet: 'finance' },
+                { div: 'Ticketing', sheet: 'Tiketing' },
+                { div: 'Kesekre', sheet: 'Kesekre' },
+                { div: 'LO', sheet: 'lo' },
+                { div: 'Equipment', sheet: 'equipment' },
+                { div: 'Humas', sheet: 'Publick Relation' },
+                { div: 'Medkraf', sheet: 'CREATIVE MEDIA' },
+                { div: 'Area', sheet: 'Area' }
+            ];
+
+            let newSOPList = [];
+            let globalId = 1;
+
+            for (const mapping of sheetsMapping) {
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${SOP_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(mapping.sheet)}`;
+                    const response = await fetch(url);
+                    if (!response.ok) continue;
+                    
+                    const text = await response.text();
+                    const data = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
+
+                    if (data.table && data.table.rows) {
+                        for (let i = 2; i < data.table.rows.length; i++) {
+                            const row = data.table.rows[i].c;
+                            if (!row || !row[1]?.v) continue;
+
+                            let progress = 'Belum Mulai';
+                            if (row[2]?.v) {
+                                const pStr = String(row[2].v).toLowerCase();
+                                if (pStr.includes('progress') || pStr.includes('jalan')) progress = 'On Progress';
+                                if (pStr.includes('selesai') || pStr.includes('done')) progress = 'Selesai';
+                            }
+
+                            newSOPList.push({
+                                id: globalId++,
+                                divisi: mapping.div,
+                                task: String(row[1].v).trim(),
+                                progress: progress,
+                                deadline: row[4]?.v || '2026-07-20',
+                                pic: row[5]?.v || 'Panitia'
+                            });
+                        }
+                    }
+                } catch (err) {
+                    console.error(`Gagal tarik SOP ${mapping.div}`, err);
+                }
+            }
+
+            if (newSOPList.length > 0) {
+                // LOGIKA PENGGABUNGAN: Jangan hilangkan progress jika sudah diedit di Firebase!
+                newSOPList.forEach(newTask => {
+                    const existingTask = currentSOP.find(t => t.task === newTask.task && t.divisi === newTask.divisi);
+                    if (existingTask) {
+                        newTask.progress = existingTask.progress;
+                        newTask.deadline = existingTask.deadline;
+                        newTask.pic = existingTask.pic;
+                    }
+                });
+
+                currentSOP = newSOPList;
+                saveStateToFirebase(); 
+                document.getElementById('sync-status-badge').innerHTML = '<i class="fa-solid fa-cloud"></i> Firebase Cloud Aktif';
+            }
         }
 
-        function updateDynamicMilestoneDates() {
-            // (Logika update tanggal milestone bisa ditambahkan di sini)
-        }
-
+        // RENDER TAMPILAN
         function renderStatsAndDashboard() {
             document.getElementById('stat-total-jobs').innerText = currentSOP.length;
             document.getElementById('stat-done-jobs').innerText = currentSOP.filter(t => t.progress === 'Selesai').length;
@@ -305,6 +299,7 @@
             document.getElementById('stat-pending-jobs').innerText = currentSOP.filter(t => t.progress === 'Belum Mulai').length;
             
             renderRoadshowPriorities();
+            renderFilters();
             renderTable();
         }
 
@@ -314,10 +309,7 @@
             prioritasRoadshow.forEach((item, index) => {
                 listContainer.innerHTML += `
                     <div class="flex items-center justify-between bg-slate-800/40 p-2.5 rounded-lg border border-slate-700/30">
-                        <div class="flex items-center gap-2">
-                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px]">${index + 1}</span>
-                            <span class="font-medium text-slate-200">${item.nama}</span>
-                        </div>
+                        <span class="font-medium text-slate-200">${index + 1}. ${item.nama}</span>
                         <input type="date" value="${item.tgl}" onchange="updateRoadshowDate(${item.id}, this.value)" class="bg-white/10 border border-white/15 rounded-lg px-2 py-1 text-[10px] text-white outline-none cursor-pointer" />
                     </div>
                 `;
@@ -326,59 +318,37 @@
 
         window.updateRoadshowDate = function(id, value) {
             const target = prioritasRoadshow.find(p => p.id === id);
-            if (target) {
-                target.tgl = value;
-                saveStateToFirebase(); // Simpan ke cloud
-            }
+            if (target) { target.tgl = value; saveStateToFirebase(); }
         }
 
-        window.searchTasks = function() {
-            searchQuery = document.getElementById('task-search-bar').value.toLowerCase();
-            renderTable();
+        function renderFilters() {
+            const container = document.getElementById('filter-buttons-container');
+            if(container.innerHTML !== '') return;
+            container.innerHTML = `<button onclick="selectFilter('All')" class="bg-indigo-900 text-white font-bold px-3 py-1 rounded-xl text-[10px]">Semua</button>`;
+            Object.keys(DIVISI_STYLES).forEach(div => {
+                container.innerHTML += `<button onclick="selectFilter('${div}')" class="bg-white text-slate-600 font-semibold px-3 py-1 rounded-xl text-[10px] border border-slate-200">${div}</button>`;
+            });
         }
-        window.changeSorting = function(val) {
-            currentSort = val;
-            renderTable();
-        }
-        window.selectFilter = function(divisi) {
-            activeFilter = divisi;
-            renderTable();
-        }
+
+        window.selectFilter = function(div) { activeFilter = div; renderTable(); }
+        window.searchTasks = function() { searchQuery = document.getElementById('task-search-bar').value.toLowerCase(); renderTable(); }
 
         function renderTable() {
             const tbody = document.getElementById('spreadsheet-body');
             tbody.innerHTML = '';
 
-            const filtered = currentSOP.filter(t => {
-                const matchFilter = (activeFilter === 'All' || t.divisi === activeFilter);
-                const matchSearch = t.task.toLowerCase().includes(searchQuery) || t.pic.toLowerCase().includes(searchQuery);
-                return matchFilter && matchSearch;
-            });
+            const filtered = currentSOP.filter(t => 
+                (activeFilter === 'All' || t.divisi === activeFilter) && 
+                (t.task.toLowerCase().includes(searchQuery) || t.pic.toLowerCase().includes(searchQuery))
+            );
 
-            document.getElementById('filter-count-badge').innerText = `${filtered.length} Tugas Terpilih`;
-
-            let sortedFiltered = [...filtered];
-            if (currentSort === 'deadline_asc') {
-                sortedFiltered.sort((a, b) => new Date(a.deadline || '2099-12-31') - new Date(b.deadline || '2099-12-31'));
-            }
-
-            sortedFiltered.forEach(task => {
+            filtered.forEach(task => {
                 const style = getStyle(task.divisi);
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/70 border-b border-slate-100';
-                
                 tr.innerHTML = `
-                    <td class="py-2 px-4 font-bold">
-                        <select onchange="updateValue(${task.id}, 'divisi', this.value)" class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${style.bg} ${style.text} ${style.border} outline-none cursor-pointer">
-                            <option value="COC" ${task.divisi === 'COC' ? 'selected' : ''}>COC</option>
-                            <option value="Pertandingan" ${task.divisi === 'Pertandingan' ? 'selected' : ''}>Pertandingan</option>
-                            <option value="Activation" ${task.divisi === 'Activation' ? 'selected' : ''}>Activation</option>
-                            <option value="Umum" ${task.divisi === 'Umum' ? 'selected' : ''}>Umum</option>
-                        </select>
-                    </td>
-                    <td class="py-2 px-4">
-                        <input type="text" value="${task.task}" onchange="updateValue(${task.id}, 'task', this.value)" class="w-full bg-transparent border border-transparent hover:border-slate-200 px-2 py-1 rounded outline-none" />
-                    </td>
+                    <td class="py-2 px-4 font-bold text-[10px]"><span class="px-2 py-1 rounded-md border ${style.bg} ${style.text} ${style.border}">${task.divisi}</span></td>
+                    <td class="py-2 px-4 font-medium text-slate-800">${task.task}</td>
                     <td class="py-2 px-4">
                         <select onchange="updateValue(${task.id}, 'progress', this.value)" class="text-[10px] font-bold py-1 px-1.5 rounded-lg border outline-none w-full bg-white ${task.progress === 'Selesai' ? 'text-emerald-700 bg-emerald-50' : task.progress === 'On Progress' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-500 bg-slate-50'}">
                             <option value="Belum Mulai" ${task.progress === 'Belum Mulai' ? 'selected' : ''}>Belum Mulai</option>
@@ -392,11 +362,6 @@
                     <td class="py-2 px-4 text-slate-700">
                         <input type="text" value="${task.pic}" onchange="updateValue(${task.id}, 'pic', this.value)" class="w-full bg-transparent border-0 px-1 rounded outline-none text-xs" />
                     </td>
-                    <td class="py-2 px-4 text-center">
-                        <button onclick="deleteTask(${task.id})" class="text-rose-500 hover:text-rose-700 p-1">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -404,29 +369,8 @@
 
         window.updateValue = function(id, property, value) {
             const task = currentSOP.find(t => t.id === id);
-            if (task) {
-                task[property] = value;
-                saveStateToFirebase(); // Simpan setiap ada perubahan dropdown/input
-            }
+            if (task) { task[property] = value; saveStateToFirebase(); }
         }
-
-        window.addNewTask = function() {
-            const nextId = currentSOP.length > 0 ? Math.max(...currentSOP.map(t => t.id)) + 1 : 1;
-            currentSOP.push({
-                id: nextId, divisi: 'Umum', task: 'Ketik detail tugas di sini...', deadline: '', progress: 'Belum Mulai', pic: 'PIC'
-            });
-            saveStateToFirebase();
-        }
-
-        window.deleteTask = function(id) {
-            if(confirm("Hapus tugas ini?")) {
-                currentSOP = currentSOP.filter(t => t.id !== id);
-                saveStateToFirebase();
-            }
-        }
-        
-        window.toggleDropdown = function() { document.getElementById('actions-dropdown-menu').classList.toggle('hidden'); }
-        window.closeDropdown = function() { document.getElementById('actions-dropdown-menu').classList.add('hidden'); }
     </script>
 </body>
 </html>
