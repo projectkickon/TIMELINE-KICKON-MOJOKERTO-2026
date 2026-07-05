@@ -17,6 +17,9 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Intro.js CSS untuk Tutorial Tour -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+    
     <!-- === TAMBAHAN FIREBASE UNTUK HTML === -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -34,6 +37,10 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* Custom Color Scheme for Date Inputs agar terlihat di kedua mode */
+        input[type="date"] { color-scheme: light; }
+        .dark input[type="date"] { color-scheme: dark; }
+        
         select {
             -webkit-appearance: none;
             -moz-appearance: none;
@@ -47,6 +54,28 @@
         .dark select {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
         }
+
+        /* Customisasi Intro.js agar sesuai tema UI */
+        .introjs-tooltip {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0;
+            max-width: 350px;
+        }
+        .introjs-tooltiptext { padding: 15px; font-size: 13px; color: #475569; line-height: 1.6; }
+        .introjs-tooltip-title { font-weight: 800; color: #1e1b4b; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .introjs-button {
+            border-radius: 8px; padding: 6px 12px; font-weight: 700; text-shadow: none; font-size: 11px;
+            transition: all 0.2s; border: none;
+        }
+        .introjs-nextbutton { background: #4f46e5 !important; color: white !important; box-shadow: 0 4px 6px -1px rgb(79 70 229 / 0.3); }
+        .introjs-nextbutton:hover { background: #4338ca !important; }
+        .introjs-prevbutton { background: #f1f5f9; color: #475569; }
+        .introjs-prevbutton:hover { background: #e2e8f0; }
+        .introjs-disabled { opacity: 0.5; cursor: not-allowed; }
+        .introjs-bullets ul li a { border-radius: 4px; }
+        .introjs-bullets ul li a.active { background: #4f46e5; }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 dark:text-slate-200 flex flex-col bg-slate-50/50 dark:bg-slate-900 transition-colors duration-300">
@@ -65,7 +94,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold tracking-tight text-white transition-colors">KICKON Futsal Mojokerto 2026</h1>
-                    <div class="flex items-center gap-2 mt-0.5">
+                    <div class="flex items-center gap-2 mt-0.5" id="tour-sync">
                         <span class="bg-orange-500/20 text-orange-200 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest border border-orange-500/30">SOP & Timeline</span>
                         
                         <button onclick="syncSOPFromGoogleSheets(false)" class="group flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white/80 hover:text-white text-[9px] font-bold px-2 py-0.5 rounded-full transition-all cursor-pointer">
@@ -84,6 +113,10 @@
                 
                 <!-- Dropdown Menu -->
                 <div id="kebab-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 transform origin-top-right transition-all">
+                    <!-- Tutorial Trigger -->
+                    <a href="#" onclick="startTutorial(); toggleMenu();" class="flex items-center gap-3 px-4 py-3 text-xs text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 font-bold border-b border-slate-100 dark:border-slate-700/50">
+                        <i class="fa-solid fa-gamepad w-4 text-center"></i> Mulai Panduan
+                    </a>
                     <a href="#" class="flex items-center gap-3 px-4 py-3 text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium border-b border-slate-100 dark:border-slate-700/50">
                         <i class="fa-solid fa-house w-4 text-center text-slate-400"></i> Home
                     </a>
@@ -111,7 +144,7 @@
     </header>
 
     <!-- KEY STATS STRIP -->
-    <section class="bg-white dark:bg-slate-800 border-b border-slate-200/80 dark:border-slate-700 py-4 px-6 shadow-sm z-40 relative transition-colors duration-300">
+    <section id="tour-stats" class="bg-white dark:bg-slate-800 border-b border-slate-200/80 dark:border-slate-700 py-4 px-6 shadow-sm z-40 relative transition-colors duration-300">
         <div class="max-w-[1400px] mx-auto grid grid-cols-2 md:grid-cols-5 gap-6 text-center divide-x divide-slate-100 dark:divide-slate-700">
             <div>
                 <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total SOP Jobdesk</span>
@@ -143,7 +176,7 @@
         <div class="lg:col-span-4 flex flex-col gap-6">
             
             <!-- MILESTONE KUNCI EVENT -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-6 transition-colors duration-300">
+            <div id="tour-milestone" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-6 transition-colors duration-300">
                 <h2 class="text-sm font-extrabold text-slate-800 dark:text-white mb-6 uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-hourglass-half text-rose-500"></i> Milestone Kunci Event
                 </h2>
@@ -199,7 +232,7 @@
             </div>
 
             <!-- FITUR 2: KALENDER DEADLINE EVENT -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
+            <div id="tour-calendar" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-sm font-extrabold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
                         <i class="fa-solid fa-calendar-days text-indigo-500"></i> Kalender Deadline
@@ -297,7 +330,7 @@
             </div>
 
             <!-- FITUR 1: BAR PROGRES TIAP DIVISI (%) -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
+            <div id="tour-progress" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
                 <div class="flex items-center justify-between cursor-pointer group select-none" onclick="toggleDivisionProgress()">
                     <h3 class="text-xs font-extrabold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                         <i class="fa-solid fa-chart-line text-indigo-500"></i> Monitor Progres Divisi (%)
@@ -316,7 +349,7 @@
             </div>
 
             <!-- TABLE & CONTROLS -->
-            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 overflow-hidden flex flex-col h-full transition-colors duration-300">
+            <div id="tour-table" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 overflow-hidden flex flex-col h-full transition-colors duration-300">
                 
                 <!-- Table Header Controls -->
                 <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-slate-50/30 dark:bg-slate-800/50">
@@ -329,7 +362,7 @@
                     
                     <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                         <!-- FITUR 3: TOMBOL GANTI PIC MASAL -->
-                        <button onclick="openMassPicModal()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-2 rounded-xl text-[11px] transition shadow-md whitespace-nowrap">
+                        <button id="tour-masspic" onclick="openMassPicModal()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-2 rounded-xl text-[11px] transition shadow-md whitespace-nowrap">
                             <i class="fa-solid fa-user-pen mr-1"></i> Ganti PIC Masal
                         </button>
 
@@ -416,7 +449,7 @@
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
                         <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Tenggat Waktu</p>
-                        <input type="date" id="detail-deadline-input" class="bg-transparent border-b border-slate-200 dark:border-slate-600 focus:border-indigo-500 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none w-full py-0.5 [color-scheme:dark]" />
+                        <input type="date" id="detail-deadline-input" class="bg-transparent border-b border-slate-200 dark:border-slate-600 focus:border-indigo-500 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none w-full py-0.5" />
                     </div>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
@@ -512,6 +545,7 @@
     </div>
 
    <!-- KODE JAVASCRIPT & FIREBASE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
     <script>
         // =========================================================
         // 1. MASUKKAN KONFIGURASI FIREBASE KAMU DI BAWAH INI
@@ -684,6 +718,71 @@
             }
             
             fetchSchoolsFromGoogleSheets();
+
+            // Cek apakah tutorial sudah pernah dijalankan
+            if (!localStorage.getItem('kickon_tutorial_played')) {
+                setTimeout(startTutorial, 1500); // Beri jeda sebentar agar DOM selesai dirender
+                localStorage.setItem('kickon_tutorial_played', 'true');
+            }
+        }
+
+        // FUNGSI TUTORIAL ONBOARDING (VIDEO GAME STYLE)
+        window.startTutorial = function() {
+            introJs().setOptions({
+                nextLabel: 'Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>',
+                prevLabel: '<i class="fa-solid fa-arrow-left mr-1"></i> Kembali',
+                doneLabel: 'Mulai Bekerja! 🚀',
+                skipLabel: 'Lewati',
+                showStepNumbers: true,
+                showProgress: true,
+                exitOnOverlayClick: false,
+                steps: [
+                    {
+                        title: '<i class="fa-solid fa-gamepad text-indigo-500"></i> Level 1: Selamat Datang!',
+                        intro: 'Halo Panitia! 👋<br><br>Ini adalah <b>SOP & Timeline Master</b>. Tempat kita memantau seluruh progres event KICKON Futsal. Mari kita tur singkat untuk melihat senjata rahasia di web ini!'
+                    },
+                    {
+                        element: document.querySelector('#tour-sync'),
+                        title: '<i class="fa-solid fa-arrows-rotate text-amber-500"></i> Sync Otomatis',
+                        intro: 'Data di-refresh setiap saat. Jika Anda melakukan perubahan di Google Sheets aslinya, Anda bisa klik tombol ini untuk menarik data terbaru secara manual tanpa perlu refresh halaman.'
+                    },
+                    {
+                        element: document.querySelector('#tour-stats'),
+                        title: '<i class="fa-solid fa-chart-pie text-emerald-500"></i> HP Bar Event Kita',
+                        intro: 'Di sini Anda bisa melihat nyawa (progress) keseluruhan event. Pastikan angka yang "Belum Mulai" terus mengecil ya!'
+                    },
+                    {
+                        element: document.querySelector('#tour-milestone'),
+                        title: '<i class="fa-solid fa-hourglass-half text-rose-500"></i> Quest Utama (Milestone)',
+                        intro: 'Ini adalah misi-misi krusial (seperti Roadshow & Match). Klik salah satunya untuk menyaring otomatis tugas-tugas yang wajib diselesaikan khusus untuk misi tersebut.'
+                    },
+                    {
+                        element: document.querySelector('#tour-calendar'),
+                        title: '<i class="fa-solid fa-calendar-days text-indigo-500"></i> Radar Tanggalan',
+                        intro: 'Kalender ini mendeteksi deadline. Tanggal yang ada titik warnanya berarti ada tugas yang menanti. <b>Klik tanggalnya</b> untuk melihat pop-up tugas, atau klik tanggal kosong untuk merencanakan tugas baru.'
+                    },
+                    {
+                        element: document.querySelector('#tour-progress'),
+                        title: '<i class="fa-solid fa-chart-line text-sky-500"></i> Leaderboard Divisi',
+                        intro: 'Pantau persentase kinerja setiap divisi di sini! Jika dirasa memakan tempat, Anda bisa <b>mengklik judul ini</b> untuk menutup (collapse) bar progresnya.'
+                    },
+                    {
+                        element: document.querySelector('#tour-masspic'),
+                        title: '<i class="fa-solid fa-user-pen text-amber-500"></i> Magic Spell: Ganti PIC',
+                        intro: 'Malas mengubah nama PIC (Penanggung Jawab) satu-satu? Gunakan tombol sihir ini untuk mengubah nama PIC pada seluruh tugas di suatu divisi secara instan!'
+                    },
+                    {
+                        element: document.querySelector('#tour-table'),
+                        title: '<i class="fa-solid fa-list-check text-indigo-500"></i> Arena Utama (SOP List)',
+                        intro: 'Ini adalah arena utamanya! Anda bisa:<br>1. Mengubah status langsung di kolom.<br>2. Mengganti PIC dengan mengetik langsung di tabel.<br>3. <b>Mengeklik teks tugasnya</b> untuk membuka laci Rincian Lengkap Tugas.'
+                    },
+                    {
+                        element: document.querySelector('#kebab-btn'),
+                        title: '<i class="fa-solid fa-gear text-slate-500"></i> Pengaturan & Dark Mode',
+                        intro: 'Terakhir, klik tombol titik tiga ini jika Anda ingin mengaktifkan Mode Gelap (Dark Mode) agar mata tidak cepat lelah saat nge-lembur! 🌙<br><br><b>Tutorial Selesai. Selamat bertugas!</b>'
+                    }
+                ]
+            }).start();
         }
 
         function saveStateToFirebase() {
@@ -978,7 +1077,7 @@
                         </span>
                     </div>
                     <div class="flex items-center shrink-0">
-                        <input type="date" value="${item.tgl}" onchange="updateRoadshowDate(${item.id}, this.value)" class="bg-white/10 hover:bg-white/20 border border-white/20 rounded-md px-1.5 py-1 text-[9px] text-white outline-none cursor-pointer transition focus:ring-1 focus:ring-amber-400 [color-scheme:dark]" title="Atur tanggal roadshow" />
+                        <input type="date" value="${item.tgl}" onchange="updateRoadshowDate(${item.id}, this.value)" class="bg-white/10 hover:bg-white/20 border border-white/20 rounded-md px-1.5 py-1 text-[9px] text-white outline-none cursor-pointer transition focus:ring-1 focus:ring-amber-400" title="Atur tanggal roadshow" />
                     </div>
                 `;
                 listContainer.appendChild(row);
@@ -1228,7 +1327,7 @@
                         </select>
                     </td>
                     <td class="py-3 px-5 text-slate-600 dark:text-slate-400">
-                        <input type="date" value="${task.deadline || '2026-07-20'}" onchange="updateValue(${task.id}, 'deadline', this.value)" class="bg-transparent border-0 text-[11px] w-full cursor-pointer outline-none [color-scheme:dark]" />
+                        <input type="date" value="${task.deadline || '2026-07-20'}" onchange="updateValue(${task.id}, 'deadline', this.value)" class="bg-transparent border-0 text-[11px] w-full cursor-pointer outline-none font-semibold text-slate-700 dark:text-slate-300" />
                     </td>
                     <td class="py-3 px-5 text-slate-700 dark:text-slate-300">
                         <div class="flex items-center justify-between gap-1">
@@ -1443,12 +1542,31 @@
                                 if (pStr.includes('selesai') || pStr.includes('done') || pStr.includes('approved')) progress = 'Selesai';
                             }
 
+                            // Format converter untuk memastikan form input date menerima value yang benar
+                            let deadlineDate = '2026-07-20';
+                            if (row[4]) {
+                                if (row[4].v && typeof row[4].v === 'string' && row[4].v.startsWith('Date(')) {
+                                    const matches = row[4].v.match(/Date\((\d+),(\d+),(\d+)\)/);
+                                    if (matches) {
+                                        const y = matches[1];
+                                        const m = String(parseInt(matches[2]) + 1).padStart(2, '0');
+                                        const d = String(matches[3]).padStart(2, '0');
+                                        deadlineDate = `${y}-${m}-${d}`;
+                                    }
+                                } else if (row[4].f && typeof row[4].f === 'string' && row[4].f.includes('/')) {
+                                    const p = row[4].f.split('/');
+                                    if(p.length === 3) deadlineDate = `${p[2]}-${p[1]}-${p[0]}`;
+                                } else if (row[4].v && typeof row[4].v === 'string' && row[4].v.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                                    deadlineDate = row[4].v;
+                                }
+                            }
+
                             newSOPList.push({
                                 id: globalId++,
                                 divisi: mapping.div,
                                 task: String(row[1].v).trim(),
                                 progress: progress,
-                                deadline: row[4]?.v || '2026-07-20',
+                                deadline: deadlineDate,
                                 pic: row[5]?.v || 'Panitia'
                             });
                         }
