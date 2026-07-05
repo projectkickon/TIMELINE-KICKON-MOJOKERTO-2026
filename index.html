@@ -432,13 +432,12 @@
         // 1. MASUKKAN KONFIGURASI FIREBASE KAMU DI BAWAH INI
         // =========================================================
         const firebaseConfig = {
-            apiKey: "AIzaSyCWKfbrJXNUerJyiFtBRO8oqLRPbw4qhtg",
-  authDomain: "kickon-sop-dashboard.firebaseapp.com",
-  projectId: "kickon-sop-dashboard",
-  storageBucket: "kickon-sop-dashboard.firebasestorage.app",
-  messagingSenderId: "231877963387",
-  appId: "1:231877963387:web:e1db93ee8948e26682bcde",
-  measurementId: "G-5NY3VMNXXC"
+            apiKey: "ISI_API_KEY_KAMU",
+            authDomain: "ISI_AUTH_DOMAIN_KAMU",
+            projectId: "ISI_PROJECT_ID_KAMU",
+            storageBucket: "ISI_STORAGE_BUCKET_KAMU",
+            messagingSenderId: "ISI_MESSAGING_SENDER_ID_KAMU",
+            appId: "ISI_APP_ID_KAMU"
         };
 
         // Initialize Firebase ONLY IF config is provided (prevents crash if empty)
@@ -455,7 +454,6 @@
         let activeFilter = 'All';
         let searchQuery = '';
         let currentSort = 'deadline_asc';
-        let currentPage = 1;
         let syncInterval;
 
         // Data Tambahan untuk Roadshow & Milestones
