@@ -57,62 +57,80 @@
 
         /* Customisasi Intro.js agar sesuai tema UI & Responsif di HP */
         .introjs-tooltip {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            border: 1px solid #e2e8f0;
-            max-width: 400px !important; /* Diperlebar agar tombol tidak sesak di laptop */
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            border-radius: 16px !important;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            max-width: 400px !important; 
+            box-sizing: border-box !important;
         }
-        /* Mencegah popup melebihi layar di HP */
+        
+        /* Memaksa Popup selalu di tengah layar pada HP agar tidak keluar pinggir layar */
         @media (max-width: 640px) {
             .introjs-tooltip {
-                max-width: calc(100vw - 40px) !important;
+                position: fixed !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                margin: 0 !important;
+                width: 90vw !important;
+                max-width: 350px !important;
+                bottom: auto !important;
+                right: auto !important;
+            }
+            .introjs-arrow {
+                display: none !important; /* Sembunyikan panah penunjuk karena melayang di tengah */
+            }
+            .introjs-button {
+                font-size: 10px !important;
+                padding: 8px !important;
             }
         }
         
-        .introjs-tooltiptext { padding: 15px; font-size: 13px; color: #475569; line-height: 1.6; }
-        .introjs-tooltip-title { font-weight: 800; color: #1e1b4b; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        .introjs-tooltiptext { padding: 15px !important; font-size: 13px !important; color: #475569 !important; line-height: 1.6 !important; }
+        .introjs-tooltip-title { font-weight: 800 !important; color: #1e1b4b !important; font-size: 15px !important; display: flex !important; align-items: center !important; gap: 8px !important; }
         
         /* Penyesuaian Flexbox Container Tombol */
         .introjs-tooltipbuttons {
             display: flex !important;
-            align-items: center;
-            justify-content: flex-end; /* Default merapat ke kanan */
-            padding: 12px 15px;
-            gap: 8px;
-            border-top: 1px solid #f1f5f9;
+            align-items: center !important;
+            justify-content: flex-end !important; 
+            flex-wrap: wrap !important;
+            padding: 12px 15px !important;
+            gap: 8px !important;
+            border-top: 1px solid #f1f5f9 !important;
         }
 
         .introjs-button {
-            border-radius: 8px; 
-            padding: 8px 12px; 
-            font-weight: 700; 
-            text-shadow: none; 
-            font-size: 11px;
-            transition: all 0.2s; 
-            border: none;
-            white-space: nowrap; /* Mencegah teks tombol patah ke bawah */
-            text-align: center;
-            box-sizing: border-box;
+            border-radius: 8px !important; 
+            padding: 8px 12px !important; 
+            font-weight: 700 !important; 
+            text-shadow: none !important; 
+            font-size: 11px !important;
+            transition: all 0.2s !important; 
+            border: none !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+            float: none !important; /* Mematikan float bawaan intro.js yang merusak posisi */
         }
         
-        .introjs-nextbutton { background: #4f46e5 !important; color: white !important; box-shadow: 0 4px 6px -1px rgb(79 70 229 / 0.3); }
+        .introjs-nextbutton { background: #4f46e5 !important; color: white !important; box-shadow: 0 4px 6px -1px rgb(79 70 229 / 0.3) !important; }
         .introjs-nextbutton:hover { background: #4338ca !important; }
-        .introjs-prevbutton { background: #f1f5f9 !important; color: #475569 !important; text-shadow: none !important;}
+        .introjs-prevbutton { background: #f1f5f9 !important; color: #475569 !important; text-shadow: none !important; }
         .introjs-prevbutton:hover { background: #e2e8f0 !important; }
         
         /* Styling khusus tombol Lewati */
         .introjs-skipbutton { 
             color: #64748b !important; 
             background: transparent !important; 
-            padding: 8px 10px !important; 
             margin-right: auto !important; /* Mendorong tombol ini ke ujung kiri sendirian */
         }
         .introjs-skipbutton:hover { color: #ef4444 !important; background: #fee2e2 !important; }
         
-        .introjs-disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
-        .introjs-bullets ul li a { border-radius: 4px; }
-        .introjs-bullets ul li a.active { background: #4f46e5; }
+        .introjs-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
+        .introjs-bullets ul li a { border-radius: 4px !important; }
+        .introjs-bullets ul li a.active { background: #4f46e5 !important; }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 dark:text-slate-200 flex flex-col bg-slate-50/50 dark:bg-slate-900 transition-colors duration-300">
