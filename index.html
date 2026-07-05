@@ -548,21 +548,12 @@
         async function initAuth() {
             if (!auth) return;
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    try {
-                        // Mencoba login dengan token default Canvas
-                        await auth.signInWithCustomToken(__initial_auth_token);
-                    } catch (tokenError) {
-                        // Jika token salah alamat (karena Anda menggunakan konfigurasi project Firebase sendiri), lakukan Fallback Anonim
-                        console.warn("Custom token tidak cocok, otomatis beralih ke Anonim:", tokenError.message);
-                        await auth.signInAnonymously();
-                    }
-                } else {
-                    await auth.signInAnonymously();
-                }
+                // PENTING: Langsung login secara anonim ke project Firebase Anda
+                await auth.signInAnonymously();
+                console.log("Berhasil terhubung ke Autentikasi Firebase!");
             } catch (error) {
-                console.error("Authentication failed:", error);
-                useLocalFallback();
+                console.error("Autentikasi gagal:", error);
+                showCustomAlert("⚠️ Sinkronisasi mati: Harap aktifkan provider 'Anonymous' di menu Authentication Firebase Console.");
             }
         }
 
@@ -577,65 +568,50 @@
             if(auth && db) {
                 await initAuth();
                 
-                // Track auth state
                 auth.onAuthStateChanged(user => {
                     if (user) {
-                        // Strict path for platform
-                        const docRef = db.collection('artifacts').doc(appId)
-                                         .collection('public').doc('data')
-                                         .collection('kickon_dashboard').doc('main_doc');
+                        // Menggunakan path Firestore yang lebih simpel dan pasti
+                        const docRef = db.collection('kickon_2026').doc('dashboard_master');
 
                         if (unsubscribeSnapshot) unsubscribeSnapshot();
                         
+                        // onSnapshot = Listener Realtime. Jika HP update, Laptop otomatis menangkap render ini.
                         unsubscribeSnapshot = docRef.onSnapshot((doc) => {
                             if (doc.exists) {
-                                currentSOP = doc.data().sopData || [];
-                                if(doc.data().roadshowData) prioritasRoadshow = doc.data().roadshowData;
-                                if (currentSOP.length === 0) syncSOPFromGoogleSheets(true);
+                                const data = doc.data();
+                                currentSOP = data.sopData || [];
+                                prioritasRoadshow = data.roadshowData || prioritasRoadshow;
+                                console.log("Menerima pembaruan data real-time dari perangkat lain!");
+                                renderStatsAndDashboard();
                             } else {
+                                console.log("Database kosong, mengambil data awal dari Sheets...");
                                 syncSOPFromGoogleSheets(true);
                             }
-                            renderStatsAndDashboard();
                         }, (error) => {
-                            console.error("Firestore Listen Error:", error);
-                            useLocalFallback();
+                            console.error("Firestore Error:", error);
+                            showCustomAlert("⚠️ Akses ditolak: Buka Firestore Database > Rules, ubah menjadi 'allow read, write: if true;'");
                         });
                     }
                 });
-            } else {
-                useLocalFallback();
-            }
-
-            // Hapus interval ini jika Firebase sudah berjalan agar tidak terjadi tabrakan update
-            if (!auth || !db) {
-                syncInterval = setInterval(() => {
-                    syncSOPFromGoogleSheets(true);
-                }, 30000); 
             }
             
-            // Tarik daftar sekolah
             fetchSchoolsFromGoogleSheets();
-        }
-
-        function useLocalFallback() {
-            if (currentSOP.length === 0) {
-                syncSOPFromGoogleSheets(true);
-            } else {
-                renderStatsAndDashboard();
-            }
         }
 
         function saveStateToFirebase() {
             if(db && auth && auth.currentUser) {
-                const docRef = db.collection('artifacts').doc(appId)
-                                 .collection('public').doc('data')
-                                 .collection('kickon_dashboard').doc('main_doc');
+                const docRef = db.collection('kickon_2026').doc('dashboard_master');
                                  
+                // Tulis data ke Firebase
                 docRef.set({ 
                     sopData: currentSOP,
-                    roadshowData: prioritasRoadshow
-                }, { merge: true }).catch(err => {
-                    console.error("Failed to save state:", err);
+                    roadshowData: prioritasRoadshow,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp() // Catat waktu server
+                }, { merge: true }).then(() => {
+                    console.log("Berhasil menyimpan ke Firebase!");
+                }).catch(err => {
+                    console.error("Gagal menyimpan state:", err);
+                    showCustomAlert("⚠️ Gagal menyimpan! Pastikan Rules Firestore Anda sudah diatur ke 'if true'.");
                 });
             }
         }
@@ -1075,13 +1051,13 @@
             document.body.appendChild(msg);
             setTimeout(() => {
                 if (document.body.contains(msg)) document.body.removeChild(msg);
-            }, 3000);
+            }, 6000); // Diperlama agar notif error terbaca
         }
 
         // Auto-Sync Bar Function (Real Fetch dari Google Sheets)
         window.syncSOPFromGoogleSheets = async function(isAuto = false) {
-            // Jangan tarik otomatis dari Sheets jika Firebase Real-time sudah aktif (hindari saling tindih)
-            if (isAuto && db && auth) return;
+            // Cegah penarikan Google Sheets berulang jika Firebase sudah berisi data agar tidak tertimpa
+            if (isAuto && currentSOP.length > 0) return;
 
             const icon = document.getElementById('sync-icon');
             const text = document.getElementById('sync-text');
