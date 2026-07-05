@@ -139,8 +139,8 @@
     <!-- MAIN BODY SECTION -->
     <main class="flex-grow max-w-[1400px] mx-auto px-6 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-        <!-- LEFT COLUMN: MILESTONES & QUICK LINKS (3 Columns) -->
-        <div class="lg:col-span-3 flex flex-col gap-6">
+        <!-- LEFT COLUMN: MILESTONES, QUICK LINKS & KALENDER (3 Columns) -->
+        <div class="lg:col-span-4 flex flex-col gap-6">
             
             <!-- MILESTONE KUNCI EVENT -->
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-6 transition-colors duration-300">
@@ -198,45 +198,72 @@
                 </div>
             </div>
 
+            <!-- FITUR 2: KALENDER DEADLINE EVENT -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-sm font-extrabold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-indigo-500"></i> Kalender Deadline
+                    </h2>
+                    <div class="flex items-center gap-1.5 text-xs">
+                        <button onclick="navigateMonth(-1)" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span id="calendar-month-year" class="font-bold text-slate-700 dark:text-slate-300">Juli 2026</span>
+                        <button onclick="navigateMonth(1)" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Grid Kalender -->
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase mb-2">
+                    <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+                </div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1">
+                    <!-- Hari-hari kalender dirender di sini via JS -->
+                </div>
+                <div class="mt-3 flex items-center gap-2 text-[9px] text-slate-500 dark:text-slate-400 flex-wrap">
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-indigo-500 rounded-full inline-block"></span>Ada Tugas</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full inline-block"></span>Selesai</span>
+                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-rose-500 rounded-full inline-block"></span>Belum Mulai</span>
+                </div>
+            </div>
+
             <!-- QUICK LINKS (2 Cards Side-by-Side) -->
             <div class="grid grid-cols-2 gap-4">
                 <!-- Sheets Peserta (Green) -->
-                <div class="bg-[#0f3f2f] rounded-2xl p-4 flex flex-col justify-between h-[160px] shadow-md relative overflow-hidden group">
+                <div class="bg-[#0f3f2f] rounded-2xl p-4 flex flex-col justify-between h-[150px] shadow-md relative overflow-hidden group">
                     <div class="absolute -right-4 -bottom-4 text-emerald-800/30 text-5xl pointer-events-none font-bold transition-transform group-hover:scale-110"><i class="fa-solid fa-users"></i></div>
                     <div class="relative z-10">
-                        <span class="bg-emerald-900/50 text-emerald-400 text-[8px] font-bold px-2 py-0.5 rounded border border-emerald-800 uppercase tracking-widest inline-block mb-2">Rencana Peserta</span>
-                        <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                        <span class="bg-emerald-900/50 text-emerald-400 text-[8px] font-bold px-2 py-0.5 rounded border border-emerald-800 uppercase tracking-widest inline-block mb-1">Rencana Peserta</span>
+                        <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
                             <i class="fa-solid fa-link text-emerald-400"></i> Sheets
                         </h3>
-                        <p class="text-[10px] text-emerald-100/70 mt-1.5 leading-snug">
+                        <p class="text-[9px] text-emerald-100/70 mt-1 leading-snug">
                             Data tim terdaftar.
                         </p>
                     </div>
-                    <a href="https://docs.google.com/spreadsheets/d/1q2MAvgQ0jCH02ndQLRIkTjlXOuT9oJJZJ6iLr42lx3g/edit" target="_blank" class="relative z-10 w-full bg-[#1b6b50] hover:bg-[#14543e] text-white font-bold py-2 px-3 rounded-lg text-[10px] transition flex items-center justify-center gap-1.5 mt-auto border border-[#228563]">
+                    <a href="https://docs.google.com/spreadsheets/d/1q2MAvgQ0jCH02ndQLRIkTjlXOuT9oJJZJ6iLr42lx3g/edit" target="_blank" class="relative z-10 w-full bg-[#1b6b50] hover:bg-[#14543e] text-white font-bold py-1.5 px-3 rounded-lg text-[9px] transition flex items-center justify-center gap-1.5 mt-auto border border-[#228563]">
                         <i class="fa-solid fa-up-right-from-square"></i> Buka
                     </a>
                 </div>
 
                 <!-- Kerja Utama Drive (Dark Blue/Purple) -->
-                <div class="bg-[#1e1b4b] rounded-2xl p-4 flex flex-col justify-between h-[160px] shadow-md relative overflow-hidden group">
+                <div class="bg-[#1e1b4b] rounded-2xl p-4 flex flex-col justify-between h-[150px] shadow-md relative overflow-hidden group">
                     <div class="absolute -right-4 -bottom-4 text-indigo-800/30 text-5xl pointer-events-none font-bold transition-transform group-hover:scale-110"><i class="fa-solid fa-folder-open"></i></div>
                     <div class="relative z-10">
-                        <span class="bg-indigo-900/50 text-indigo-300 text-[8px] font-bold px-2 py-0.5 rounded border border-indigo-800 uppercase tracking-widest inline-block mb-2">Folder Drive</span>
-                        <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                        <span class="bg-indigo-900/50 text-indigo-300 text-[8px] font-bold px-2 py-0.5 rounded border border-indigo-800 uppercase tracking-widest inline-block mb-1">Folder Drive</span>
+                        <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
                             <i class="fa-solid fa-folder text-amber-400"></i> Berkas
                         </h3>
-                        <p class="text-[10px] text-indigo-100/70 mt-1.5 leading-snug">
-                            Dokumen & SOP kerja divisi.
+                        <p class="text-[9px] text-indigo-100/70 mt-1 leading-snug">
+                            Dokumen & SOP kerja.
                         </p>
                     </div>
-                    <a href="https://drive.google.com/drive/u/7/folders/1sjTFQUggsMGkRfHuVQSLDKXk8ZaWZJsY" target="_blank" class="relative z-10 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded-lg text-[10px] transition flex items-center justify-center gap-1.5 mt-auto border border-indigo-500">
+                    <a href="https://drive.google.com/drive/u/7/folders/1sjTFQUggsMGkRfHuVQSLDKXk8ZaWZJsY" target="_blank" class="relative z-10 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1.5 px-3 rounded-lg text-[9px] transition flex items-center justify-center gap-1.5 mt-auto border border-indigo-500">
                         <i class="fa-solid fa-up-right-from-square"></i> Buka
                     </a>
                 </div>
             </div>
 
-            <!-- PRIORITAS ROADSHOW (NEW) -->
-            <div class="bg-gradient-to-br from-slate-900 to-slate-950 dark:from-slate-800 dark:to-slate-900 text-white rounded-2xl p-5 border border-slate-800 dark:border-slate-700 shadow-md relative overflow-hidden mt-2">
+            <!-- PRIORITAS ROADSHOW -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 dark:from-slate-800 dark:to-slate-900 text-white rounded-2xl p-5 border border-slate-800 dark:border-slate-700 shadow-md relative overflow-hidden">
                 <div class="absolute -right-6 -bottom-6 text-slate-800/30 dark:text-slate-900/50 text-8xl pointer-events-none font-bold">
                     <i class="fa-solid fa-bullhorn"></i>
                 </div>
@@ -254,8 +281,8 @@
             
         </div>
 
-        <!-- RIGHT COLUMN: FILTERS & TABLE (9 Columns) -->
-        <div class="lg:col-span-9 flex flex-col gap-6">
+        <!-- RIGHT COLUMN: FILTERS, DIVISION PROGRESS & TABLE (8 Columns) -->
+        <div class="lg:col-span-8 flex flex-col gap-6">
             
             <!-- FILTERS -->
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
@@ -269,7 +296,26 @@
                 </div>
             </div>
 
-            <!-- TABLE -->
+            <!-- FITUR 1: BAR PROGRES TIAP DIVISI (%) -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-5 transition-colors duration-300">
+                <div class="flex items-center justify-between cursor-pointer group select-none" onclick="toggleDivisionProgress()">
+                    <h3 class="text-xs font-extrabold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        <i class="fa-solid fa-chart-line text-indigo-500"></i> Monitor Progres Divisi (%)
+                    </h3>
+                    <div class="bg-slate-100 dark:bg-slate-700/50 p-1 rounded-md group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
+                        <i id="chevron-divisi-progress" class="fa-solid fa-chevron-up text-[10px] text-slate-500 group-hover:text-indigo-500 transition-transform duration-300"></i>
+                    </div>
+                </div>
+                
+                <!-- Wrapper yang bisa disembunyikan -->
+                <div id="divisi-progress-wrapper" class="mt-4 transition-all duration-300 origin-top opacity-100">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="divisi-progress-bars">
+                        <!-- Progress Bar tiap divisi akan di-render di sini via Javascript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLE & CONTROLS -->
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 overflow-hidden flex flex-col h-full transition-colors duration-300">
                 
                 <!-- Table Header Controls -->
@@ -278,12 +324,16 @@
                         <h2 class="text-lg font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-list-check text-indigo-600 dark:text-indigo-400"></i> SOP dan Timeline kerja
                         </h2>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Gunakan tabel kolaboratif ini untuk merinci tugas. Klik baris/teks jobdesk untuk membuka ulasan pop-up detail secara penuh.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Klik baris/teks jobdesk untuk membuka detail. Ubah nama PIC langsung dari kolom PIC atau ubah secara masal dengan tombol di bawah.</p>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                        <!-- FITUR 3: TOMBOL GANTI PIC MASAL -->
+                        <button onclick="openMassPicModal()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-2 rounded-xl text-[11px] transition shadow-md whitespace-nowrap">
+                            <i class="fa-solid fa-user-pen mr-1"></i> Ganti PIC Masal
+                        </button>
+
                         <div class="flex items-center gap-2">
-                            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Filter Status:</label>
                             <select id="task-sorting-select" onchange="changeSorting(this.value)" class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2 px-3 rounded-xl cursor-pointer font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900 outline-none transition-colors">
                                 <option value="semua_urut_deadline">Semua Status (Urut Tenggat) 🗓️</option>
                                 <option value="status_belum">Hanya: Belum Mulai 📌</option>
@@ -294,7 +344,7 @@
                         
                         <div class="relative">
                             <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-[10px]"></i>
-                            <input type="text" id="task-search-bar" oninput="searchTasks()" placeholder="Cari SOP atau PIC..." class="w-full lg:w-48 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2 pl-8 pr-3 rounded-xl focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900 outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-700 dark:text-slate-200 transition-colors" />
+                            <input type="text" id="task-search-bar" oninput="searchTasks()" placeholder="Cari SOP atau PIC..." class="w-full lg:w-40 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2 pl-8 pr-3 rounded-xl focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900 outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 text-slate-700 dark:text-slate-200 transition-colors" />
                         </div>
                         
                         <button onclick="addNewTask()" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-bold px-4 py-2 rounded-xl text-[11px] transition shadow-md shadow-indigo-200 dark:shadow-none whitespace-nowrap">
@@ -312,7 +362,7 @@
                                 <th class="py-4 px-5">SOP / Rincian Jobdesk Lengkap (Bisa Diklik)</th>
                                 <th class="py-4 px-5 w-36">Progress</th>
                                 <th class="py-4 px-5 w-32">Deadline</th>
-                                <th class="py-4 px-5 w-36">PIC</th>
+                                <th class="py-4 px-5 w-44">PIC</th>
                             </tr>
                         </thead>
                         <tbody id="spreadsheet-body" class="divide-y divide-slate-100 dark:divide-slate-700/50 text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 transition-colors">
@@ -357,7 +407,7 @@
                 </div>
                 <div>
                     <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">Deskripsi / Rincian Lengkap Tugas</p>
-                    <p id="detail-task" class="text-sm text-slate-700 dark:text-slate-200 font-medium leading-relaxed bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700"></p>
+                    <textarea id="detail-task" class="w-full text-sm text-slate-700 dark:text-slate-200 font-medium leading-relaxed bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700 h-28 outline-none focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900" placeholder="Tuliskan detail tugas..."></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
@@ -366,18 +416,53 @@
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
                         <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Tenggat Waktu</p>
-                        <p id="detail-deadline" class="text-xs font-bold text-slate-700 dark:text-slate-200"></p>
+                        <input type="date" id="detail-deadline-input" class="bg-transparent border-b border-slate-200 dark:border-slate-600 focus:border-indigo-500 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none w-full py-0.5 [color-scheme:dark]" />
                     </div>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
                     <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Penanggung Jawab (PIC)</p>
-                    <p id="detail-pic" class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-user-circle text-slate-400"></i> <span></span>
-                    </p>
+                    <div class="flex items-center gap-2 mt-1">
+                        <i class="fa-solid fa-user-circle text-slate-400 text-lg"></i>
+                        <input type="text" id="detail-pic-input" class="bg-transparent border-b border-slate-200 dark:border-slate-600 focus:border-indigo-500 text-xs font-bold text-slate-700 dark:text-slate-200 outline-none w-full py-0.5" placeholder="Masukkan nama PIC" />
+                    </div>
                 </div>
             </div>
-            <div class="bg-slate-50 dark:bg-slate-900 px-6 py-4 flex justify-end border-t border-slate-100 dark:border-slate-700">
-                <button onclick="closeTaskDetailModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow-md">Tutup</button>
+            <div class="bg-slate-50 dark:bg-slate-900 px-6 py-4 flex justify-between border-t border-slate-100 dark:border-slate-700">
+                <button onclick="saveTaskDetails()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow-md">Simpan Perubahan</button>
+                <button onclick="closeTaskDetailModal()" class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold px-5 py-2.5 rounded-xl transition">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FITUR 3: MASS PIC UPDATE MODAL -->
+    <div id="mass-pic-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden">
+            <div class="px-5 py-4 flex justify-between items-center border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80">
+                <h3 class="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-user-pen text-amber-500"></i> Ganti PIC Divisi Masal
+                </h3>
+                <button onclick="closeMassPicModal()" class="text-slate-400 hover:text-rose-500 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">1. Pilih Divisi Sasaran</label>
+                    <select id="mass-pic-divisi" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2 px-3 rounded-xl cursor-pointer font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-indigo-100 outline-none transition-colors">
+                        <!-- Render Divisi list -->
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">2. Masukkan Nama PIC Baru</label>
+                    <input type="text" id="mass-pic-name" class="w-full bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2.5 px-3.5 rounded-xl focus:ring-2 focus:ring-indigo-100 outline-none text-slate-700 dark:text-slate-200 font-medium placeholder:text-slate-400" placeholder="Contoh: Rangga & Team" />
+                </div>
+                <div class="p-3 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-200 dark:border-amber-800/50 text-[11px] text-amber-700 dark:text-amber-400 leading-relaxed">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Mengklik tombol "Terapkan" akan menimpa nama PIC pada <strong>seluruh tugas</strong> yang berada di divisi terpilih tersebut.
+                </div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-900 px-6 py-4 flex justify-between border-t border-slate-100 dark:border-slate-700">
+                <button onclick="applyMassPicUpdate()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow-md">Terapkan Perubahan</button>
+                <button onclick="closeMassPicModal()" class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold px-5 py-2.5 rounded-xl transition">Batal</button>
             </div>
         </div>
     </div>
@@ -440,7 +525,7 @@
             appId: "1:231877963387:web:e1db93ee8948e26682bcde"
         };
 
-        // App ID Global fallback (Memperbaiki ReferenceError "appId is not defined")
+        // App ID Global fallback
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'kickon-futsal-2026';
 
         // Initialize Firebase 
@@ -456,10 +541,13 @@
         let currentSOP = [];
         let activeFilter = 'All';
         let searchQuery = '';
-        let currentSort = 'deadline_asc';
+        let currentSort = 'semua_urut_deadline';
         let currentPage = 1;
-        let syncInterval;
         let unsubscribeSnapshot = null;
+        let selectedTaskDetailId = null;
+
+        // Variabel untuk navigasi kalender
+        let currentCalendarDate = new Date(2026, 6, 1); // Default ke Juli 2026 (Bulan di JS 0-indexed, 6 = Juli)
 
         // Data Tambahan untuk Roadshow & Milestones
         let prioritasRoadshow = [
@@ -494,17 +582,17 @@
 
         // Definisi Warna Divisi
         const DIVISI_STYLES = {
-            'COC': { bg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-600 dark:text-rose-400', border: 'border-rose-200 dark:border-rose-800/50' },
-            'Pertandingan': { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800/50' },
-            'Activation': { bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50' },
-            'Finance': { bg: 'bg-cyan-50 dark:bg-cyan-900/20', text: 'text-cyan-600 dark:text-cyan-400', border: 'border-cyan-200 dark:border-cyan-800/50' },
-            'Ticketing': { bg: 'bg-indigo-50 dark:bg-indigo-900/20', text: 'text-indigo-600 dark:text-indigo-400', border: 'border-indigo-200 dark:border-indigo-800/50' },
-            'Kesekre': { bg: 'bg-violet-50 dark:bg-violet-900/20', text: 'text-violet-600 dark:text-violet-400', border: 'border-violet-200 dark:border-violet-800/50' },
-            'LO': { bg: 'bg-teal-50 dark:bg-teal-900/20', text: 'text-teal-600 dark:text-teal-400', border: 'border-teal-200 dark:border-teal-800/50' },
-            'Equipment': { bg: 'bg-yellow-50 dark:bg-yellow-900/20', text: 'text-yellow-600 dark:text-yellow-400', border: 'border-yellow-200 dark:border-yellow-800/50' },
-            'Humas': { bg: 'bg-sky-50 dark:bg-sky-900/20', text: 'text-sky-600 dark:text-sky-400', border: 'border-sky-200 dark:border-sky-800/50' },
-            'Medkraf': { bg: 'bg-purple-50 dark:bg-purple-900/20', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50' },
-            'Area': { bg: 'bg-slate-50 dark:bg-slate-700/30', text: 'text-slate-600 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700' }
+            'COC': { bg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-600 dark:text-rose-400', border: 'border-rose-200 dark:border-rose-800/50', hex: '#f43f5e' },
+            'Pertandingan': { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800/50', hex: '#10b981' },
+            'Activation': { bg: 'bg-amber-50 dark:bg-amber-900/20', text: 'text-amber-600 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800/50', hex: '#f59e0b' },
+            'Finance': { bg: 'bg-cyan-50 dark:bg-cyan-900/20', text: 'text-cyan-600 dark:text-cyan-400', border: 'border-cyan-200 dark:border-cyan-800/50', hex: '#06b6d4' },
+            'Ticketing': { bg: 'bg-indigo-50 dark:bg-indigo-900/20', text: 'text-indigo-600 dark:text-indigo-400', border: 'border-indigo-200 dark:border-indigo-800/50', hex: '#6366f1' },
+            'Kesekre': { bg: 'bg-violet-50 dark:bg-violet-900/20', text: 'text-violet-600 dark:text-violet-400', border: 'border-violet-200 dark:border-violet-800/50', hex: '#8b5cf6' },
+            'LO': { bg: 'bg-teal-50 dark:bg-teal-900/20', text: 'text-teal-600 dark:text-teal-400', border: 'border-teal-200 dark:border-teal-800/50', hex: '#14b8a6' },
+            'Equipment': { bg: 'bg-yellow-50 dark:bg-yellow-900/20', text: 'text-yellow-600 dark:text-yellow-400', border: 'border-yellow-200 dark:border-yellow-800/50', hex: '#eab308' },
+            'Humas': { bg: 'bg-sky-50 dark:bg-sky-900/20', text: 'text-sky-600 dark:text-sky-400', border: 'border-sky-200 dark:border-sky-800/50', hex: '#0ea5e9' },
+            'Medkraf': { bg: 'bg-purple-50 dark:bg-purple-900/20', text: 'text-purple-600 dark:text-purple-400', border: 'border-purple-200 dark:border-purple-800/50', hex: '#a855f7' },
+            'Area': { bg: 'bg-slate-50 dark:bg-slate-700/30', text: 'text-slate-600 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700', hex: '#64748b' }
         };
 
         function getStyle(divisi) { return DIVISI_STYLES[divisi] || DIVISI_STYLES['Area']; }
@@ -548,7 +636,6 @@
         async function initAuth() {
             if (!auth) return;
             try {
-                // PENTING: Langsung login secara anonim ke project Firebase Anda
                 await auth.signInAnonymously();
                 console.log("Berhasil terhubung ke Autentikasi Firebase!");
             } catch (error) {
@@ -559,7 +646,6 @@
 
         // Start App
         async function initApp() {
-            // Load theme preference
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 updateThemeUI(true);
@@ -570,18 +656,16 @@
                 
                 auth.onAuthStateChanged(user => {
                     if (user) {
-                        // Menggunakan path Firestore yang lebih simpel dan pasti
                         const docRef = db.collection('kickon_2026').doc('dashboard_master');
 
                         if (unsubscribeSnapshot) unsubscribeSnapshot();
                         
-                        // onSnapshot = Listener Realtime. Jika HP update, Laptop otomatis menangkap render ini.
                         unsubscribeSnapshot = docRef.onSnapshot((doc) => {
                             if (doc.exists) {
                                 const data = doc.data();
                                 currentSOP = data.sopData || [];
                                 prioritasRoadshow = data.roadshowData || prioritasRoadshow;
-                                console.log("Menerima pembaruan data real-time dari perangkat lain!");
+                                console.log("Menerima pembaruan data real-time!");
                                 renderStatsAndDashboard();
                             } else {
                                 console.log("Database kosong, mengambil data awal dari Sheets...");
@@ -593,6 +677,10 @@
                         });
                     }
                 });
+            } else {
+                // Fallback jika tidak terkoneksi ke Firebase SDK
+                currentSOP = [...DEFAULT_SOP];
+                renderStatsAndDashboard();
             }
             
             fetchSchoolsFromGoogleSheets();
@@ -601,18 +689,19 @@
         function saveStateToFirebase() {
             if(db && auth && auth.currentUser) {
                 const docRef = db.collection('kickon_2026').doc('dashboard_master');
-                                 
-                // Tulis data ke Firebase
                 docRef.set({ 
                     sopData: currentSOP,
                     roadshowData: prioritasRoadshow,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp() // Catat waktu server
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 }, { merge: true }).then(() => {
                     console.log("Berhasil menyimpan ke Firebase!");
                 }).catch(err => {
                     console.error("Gagal menyimpan state:", err);
                     showCustomAlert("⚠️ Gagal menyimpan! Pastikan Rules Firestore Anda sudah diatur ke 'if true'.");
                 });
+            } else {
+                // Jika offline / tanpa Firebase, render manual
+                renderStatsAndDashboard();
             }
         }
 
@@ -630,8 +719,246 @@
             document.getElementById('stat-avg-progress').innerText = `${avgPct}%`;
             
             renderFilters();
+            renderDivisionProgressBars(); // FITUR 1
+            renderCalendar();             // FITUR 2
             renderTable();
             renderRoadshowPriorities();
+        }
+
+        // ==========================================
+        // FITUR 1: RENDER BAR PROGRES TIAP DIVISI (%)
+        // ==========================================
+        function renderDivisionProgressBars() {
+            const container = document.getElementById('divisi-progress-bars');
+            if (!container) return;
+            container.innerHTML = '';
+
+            Object.keys(DIVISI_STYLES).forEach(div => {
+                const divTasks = currentSOP.filter(t => t.divisi === div);
+                const total = divTasks.length;
+                let pct = 0;
+
+                if (total > 0) {
+                    const doneCount = divTasks.filter(t => t.progress === 'Selesai').length;
+                    const progCount = divTasks.filter(t => t.progress === 'On Progress').length;
+                    pct = Math.round(((doneCount * 100) + (progCount * 50)) / total);
+                }
+
+                const style = getStyle(div);
+                
+                const card = document.createElement('div');
+                card.className = 'p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-700/80 hover:shadow-sm transition-all cursor-pointer';
+                card.onclick = () => selectFilter(div);
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] font-extrabold ${style.text}">${div}</span>
+                        <span class="text-[10px] font-extrabold text-slate-700 dark:text-slate-300">${pct}%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-500" style="width: ${pct}%; background-color: ${style.hex}"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] text-slate-400 mt-1">
+                        <span>Total: ${total}</span>
+                        <span>Selesai: ${divTasks.filter(t => t.progress === 'Selesai').length}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // FITUR 2: TABLE KALENDER DEADLINE DINAMIS
+        // ==========================================
+        window.navigateMonth = function(dir) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + dir);
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const title = document.getElementById('calendar-month-year');
+            if (!grid || !title) return;
+
+            grid.innerHTML = '';
+            
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
+            // Nama bulan Bahasa Indonesia
+            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+            title.innerText = `${monthNames[month]} ${year}`;
+
+            // Cari tahu hari pertama awal bulan dan total hari
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            // Sediakan ruang kosong untuk hari sebelum awal bulan
+            for (let i = 0; i < firstDayIndex; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'h-8';
+                grid.appendChild(emptyCell);
+            }
+
+            // Render tanggal aktif
+            for (let day = 1; day <= totalDays; day++) {
+                const cellDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                
+                // Cari tugas yang memiliki deadline pada tanggal ini
+                const dayTasks = currentSOP.filter(t => t.deadline === cellDateStr);
+                
+                const cell = document.createElement('button');
+                cell.className = 'h-8 w-full flex flex-col items-center justify-between p-1 rounded-lg border border-slate-100 dark:border-slate-800 text-[10px] font-semibold transition hover:bg-indigo-50 dark:hover:bg-slate-700/50';
+                
+                // Hari ini (Today) highlighting
+                const today = new Date();
+                const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+                
+                if (isToday) {
+                    cell.className += ' bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 font-bold';
+                }
+
+                // Text Tanggal
+                const dateNum = document.createElement('span');
+                dateNum.innerText = day;
+                cell.appendChild(dateNum);
+
+                // Tandai jika ada tugas deadline
+                if (dayTasks.length > 0) {
+                    const indicatorContainer = document.createElement('div');
+                    indicatorContainer.className = 'flex gap-0.5 justify-center mt-auto w-full overflow-hidden';
+                    
+                    // Batasi lingkaran warna maksimal 3 agar muat
+                    dayTasks.slice(0, 3).forEach(t => {
+                        const style = getStyle(t.divisi);
+                        const dot = document.createElement('span');
+                        dot.className = 'w-1.5 h-1.5 rounded-full inline-block shrink-0';
+                        
+                        // Warna dot berdasarkan status
+                        if (t.progress === 'Selesai') {
+                            dot.style.backgroundColor = '#10b981'; // Hijau
+                        } else if (t.progress === 'On Progress') {
+                            dot.style.backgroundColor = '#6366f1'; // Indigo
+                        } else {
+                            dot.style.backgroundColor = '#f43f5e'; // Rose
+                        }
+                        
+                        dot.title = `[${t.divisi}] ${t.task}`;
+                        indicatorContainer.appendChild(dot);
+                    });
+                    
+                    cell.appendChild(indicatorContainer);
+                    cell.className += ' font-extrabold text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/20';
+                    
+                    // Klik Tanggal -> Buka list detail job pada tanggal itu
+                    cell.onclick = () => openTimelineTasksForDate(cellDateStr, dayTasks);
+                } else {
+                    cell.onclick = () => {
+                        // Tambah tugas baru otomatis dengan deadline di tanggal ini
+                        const nextId = currentSOP.length > 0 ? Math.max(...currentSOP.map(t => t.id)) + 1 : 1;
+                        currentSOP.unshift({ 
+                            id: nextId, divisi: 'COC', task: 'Rencana Tugas Baru...', deadline: cellDateStr, progress: 'Belum Mulai', pic: 'Panitia'
+                        });
+                        saveStateToFirebase();
+                        showCustomAlert(`Tugas baru berhasil dijadwalkan pada tanggal ${formatDateForDisplay(cellDateStr)}!`);
+                        openTaskDetail(nextId);
+                    };
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // Buka list tugas untuk tanggal tertentu di modal Milestone
+        function openTimelineTasksForDate(dateStr, tasks) {
+            activeMilestoneType = 'custom_date';
+            activeMilestoneTitle = `Deadline Tanggal ${formatDateForDisplay(dateStr)}`;
+            milestoneSearchQuery = '';
+            document.getElementById('milestone-search-bar').value = '';
+            document.getElementById('milestone-modal-title').innerText = activeMilestoneTitle;
+            
+            const listContainer = document.getElementById('milestone-modal-task-list');
+            listContainer.innerHTML = '';
+
+            tasks.forEach(task => {
+                const style = getStyle(task.divisi);
+                const block = document.createElement('div');
+                block.className = 'bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 p-3.5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3 shadow-sm cursor-pointer hover:border-indigo-400';
+                block.onclick = (e) => {
+                    if (e.target.tagName !== 'SELECT') {
+                        closeMilestoneModal();
+                        openTaskDetail(task.id);
+                    }
+                };
+                block.innerHTML = `
+                    <div class="space-y-1 w-full md:w-3/4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[9px] font-extrabold px-2 py-0.5 rounded border ${style.bg} ${style.text} ${style.border} tracking-wider">
+                                ${task.divisi}
+                            </span>
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold bg-slate-100 dark:bg-slate-700/50 px-2 py-0.5 rounded">PIC: ${task.pic}</span>
+                        </div>
+                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-200 leading-snug">${task.task}</h4>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+                        <select onchange="updateValue(${task.id}, 'progress', this.value); closeMilestoneModal(); renderStatsAndDashboard();" class="text-[10px] font-bold py-1.5 px-2 rounded-lg border focus:ring-1 outline-none w-full md:w-auto cursor-pointer ${
+                            task.progress === 'Selesai' ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50' :
+                            task.progress === 'On Progress' ? 'text-indigo-700 bg-indigo-50 dark:bg-indigo-900/30 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/50' :
+                            'text-slate-500 bg-slate-50 dark:bg-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600'
+                        }">
+                            <option value="Belum Mulai" ${task.progress === 'Belum Mulai' ? 'selected' : ''}>Belum Mulai</option>
+                            <option value="On Progress" ${task.progress === 'On Progress' ? 'selected' : ''}>On Progress</option>
+                            <option value="Selesai" ${task.progress === 'Selesai' ? 'selected' : ''}>Selesai</option>
+                        </select>
+                    </div>
+                `;
+                listContainer.appendChild(block);
+            });
+
+            document.getElementById('milestone-manager-modal').classList.remove('hidden');
+        }
+
+        // ==========================================
+        // FITUR 3: PENGUBAH PIC MASAL / DEFAULT PIC
+        // ==========================================
+        window.openMassPicModal = function() {
+            const selectDiv = document.getElementById('mass-pic-divisi');
+            selectDiv.innerHTML = Object.keys(DIVISI_STYLES).map(div => `<option value="${div}">${div}</option>`).join('');
+            
+            document.getElementById('mass-pic-name').value = '';
+            document.getElementById('mass-pic-modal').classList.remove('hidden');
+        }
+
+        window.closeMassPicModal = function() {
+            document.getElementById('mass-pic-modal').classList.add('hidden');
+        }
+
+        window.applyMassPicUpdate = function() {
+            const div = document.getElementById('mass-pic-divisi').value;
+            const newName = document.getElementById('mass-pic-name').value.trim();
+
+            if (!newName) {
+                showCustomAlert("⚠️ Silakan isi nama PIC baru terlebih dahulu!");
+                return;
+            }
+
+            // Ganti nama PIC untuk seluruh tugas di divisi ini
+            let count = 0;
+            currentSOP.forEach(t => {
+                if (t.divisi === div) {
+                    t.pic = newName;
+                    count++;
+                }
+            });
+
+            if (count > 0) {
+                saveStateToFirebase();
+                renderStatsAndDashboard();
+                closeMassPicModal();
+                showCustomAlert(`✅ Berhasil menerapkan PIC "${newName}" pada ${count} tugas divisi ${div}!`);
+            } else {
+                showCustomAlert(`⚠️ Tidak ditemukan tugas di divisi ${div} untuk diubah.`);
+            }
         }
         
         // Logika Render Daftar Sekolah Prioritas
@@ -651,7 +978,7 @@
                         </span>
                     </div>
                     <div class="flex items-center shrink-0">
-                        <input type="date" value="${item.tgl}" onchange="updateRoadshowDate(${item.id}, this.value)" class="bg-white/10 hover:bg-white/20 border border-white/20 rounded-md px-1.5 py-1 text-[9px] text-white outline-none cursor-pointer transition focus:ring-1 focus:ring-amber-400 backdrop-blur-md [color-scheme:dark]" title="Atur tanggal roadshow" />
+                        <input type="date" value="${item.tgl}" onchange="updateRoadshowDate(${item.id}, this.value)" class="bg-white/10 hover:bg-white/20 border border-white/20 rounded-md px-1.5 py-1 text-[9px] text-white outline-none cursor-pointer transition focus:ring-1 focus:ring-amber-400 [color-scheme:dark]" title="Atur tanggal roadshow" />
                     </div>
                 `;
                 listContainer.appendChild(row);
@@ -793,14 +1120,13 @@
 
         function renderFilters() {
             const container = document.getElementById('filter-buttons-container');
-            container.innerHTML = ''; // Bersihkan container untuk re-render state
+            container.innerHTML = '';
             
             const createBtn = (id, text, isActive) => {
                 const btn = document.createElement('button');
                 btn.onclick = () => selectFilter(id);
                 btn.innerText = text;
                 
-                // Styling dinamis jika sedang aktif dipencet vs tidak dipencet
                 if (isActive) {
                     btn.className = "shrink-0 bg-indigo-600 dark:bg-indigo-500 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md shadow-indigo-200 dark:shadow-none transition-all";
                 } else {
@@ -809,25 +1135,17 @@
                 return btn;
             };
 
-            // Tambahkan tombol filter utama (Semua Divisi)
             container.appendChild(createBtn('All', 'Semua Divisi', activeFilter === 'All'));
             
-            // Loop data DIVISI_STYLES untuk render nama-nama divisi menjadi tombol bar
             Object.keys(DIVISI_STYLES).forEach(div => {
                 container.appendChild(createBtn(div, div, activeFilter === div));
             });
         }
 
         window.selectFilter = function(divisi) {
-            const prevActive = document.getElementById(`filter-btn-${activeFilter}`);
-            if(prevActive) prevActive.className = "bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-4 py-1.5 rounded-full text-xs border border-slate-200 dark:border-slate-600 transition-colors";
-            
             activeFilter = divisi;
-            currentPage = 1; // Reset halaman saat filter berubah
-            
-            const currentActive = document.getElementById(`filter-btn-${activeFilter}`);
-            if(currentActive) currentActive.className = "bg-indigo-900 dark:bg-indigo-500 text-white font-semibold px-4 py-1.5 rounded-full text-xs shadow-sm transition-colors";
-
+            currentPage = 1;
+            renderFilters();
             renderTable();
         }
 
@@ -843,13 +1161,13 @@
             const tbody = document.getElementById('spreadsheet-body');
             tbody.innerHTML = '';
 
-            // 1. Base Filter (Saring Divisi & Pencarian)
+            // 1. Base Filter
             let filtered = currentSOP.filter(t => 
                 (activeFilter === 'All' || t.divisi === activeFilter) && 
                 (t.task.toLowerCase().includes(searchQuery) || t.pic.toLowerCase().includes(searchQuery))
             );
 
-            // 2. Saring Status (Dari Dropdown Filter)
+            // 2. Saring Status
             if (currentSort === 'status_belum') {
                 filtered = filtered.filter(t => t.progress === 'Belum Mulai');
             } else if (currentSort === 'status_progress') {
@@ -858,12 +1176,11 @@
                 filtered = filtered.filter(t => t.progress === 'Selesai');
             }
 
-            // 3. Sorting Default (Selalu urutkan dari Tenggat Terdekat agar rapi)
+            // 3. Sorting
             filtered.sort((a, b) => new Date(a.deadline || '2099-12-31') - new Date(b.deadline || '2099-12-31'));
 
             document.getElementById('filter-count-badge').innerText = `${filtered.length} Tugas Terpilih`;
 
-            // 4. Sistem Paginasi (15 per halaman)
             const rowsPerPage = 15;
             const totalPages = Math.ceil(filtered.length / rowsPerPage) || 1;
             
@@ -874,7 +1191,6 @@
             const endIndex = startIndex + rowsPerPage;
             const paginatedTasks = filtered.slice(startIndex, endIndex);
 
-            // 5. Update UI Paginasi
             const pageInfo = document.getElementById('pagination-info');
             if (pageInfo) {
                 const endText = Math.min(endIndex, filtered.length);
@@ -912,11 +1228,11 @@
                         </select>
                     </td>
                     <td class="py-3 px-5 text-slate-600 dark:text-slate-400">
-                        <input type="text" value="${formatDateForDisplay(task.deadline)}" readonly class="bg-transparent border-0 text-[11px] w-full cursor-default" />
+                        <input type="date" value="${task.deadline || '2026-07-20'}" onchange="updateValue(${task.id}, 'deadline', this.value)" class="bg-transparent border-0 text-[11px] w-full cursor-pointer outline-none [color-scheme:dark]" />
                     </td>
                     <td class="py-3 px-5 text-slate-700 dark:text-slate-300">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs truncate w-20" title="${task.pic}">${task.pic}</span>
+                        <div class="flex items-center justify-between gap-1">
+                            <input type="text" value="${task.pic}" onchange="updateValue(${task.id}, 'pic', this.value)" class="bg-transparent hover:bg-slate-100 dark:hover:bg-slate-700/50 focus:bg-white dark:focus:bg-slate-700 px-1.5 py-1 rounded border border-transparent focus:border-slate-300 outline-none text-xs w-full transition-colors font-semibold" title="Ketik untuk mengubah nama PIC secara langsung" />
                             <button class="text-slate-300 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 opacity-0 group-hover:opacity-100 transition px-1" onclick="deleteTask(${task.id})" title="Hapus">
                                 <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
@@ -927,19 +1243,20 @@
             });
         }
         
-        // Logika Pop-up Modal Rincian Tugas
+        // Logika Pop-up Modal Rincian Tugas (Dilengkapi Edit Form)
         window.openTaskDetail = function(id) {
             const task = currentSOP.find(t => t.id === id);
             if(!task) return;
             
+            selectedTaskDetailId = id;
             const style = getStyle(task.divisi);
             const divBadge = document.getElementById('detail-divisi');
             divBadge.className = `text-[10px] font-bold px-2.5 py-1 rounded-md border tracking-wider ${style.bg} ${style.text} ${style.border}`;
             divBadge.innerText = task.divisi;
             
-            document.getElementById('detail-task').innerText = task.task;
-            document.getElementById('detail-deadline').innerText = formatDateForDisplay(task.deadline);
-            document.getElementById('detail-pic').innerHTML = `<i class="fa-solid fa-user-circle text-slate-400 text-sm"></i> <span>${task.pic}</span>`;
+            document.getElementById('detail-task').value = task.task;
+            document.getElementById('detail-deadline-input').value = task.deadline || '2026-07-20';
+            document.getElementById('detail-pic-input').value = task.pic;
             
             const progressEl = document.getElementById('detail-progress');
             if (task.progress === 'Selesai') {
@@ -956,11 +1273,28 @@
             document.getElementById('task-detail-modal').classList.remove('hidden');
         }
 
-        window.closeTaskDetailModal = function() {
-            document.getElementById('task-detail-modal').classList.add('hidden');
+        window.saveTaskDetails = function() {
+            if (selectedTaskDetailId !== null) {
+                const task = currentSOP.find(t => t.id === selectedTaskDetailId);
+                if (task) {
+                    task.task = document.getElementById('detail-task').value.trim();
+                    task.deadline = document.getElementById('detail-deadline-input').value;
+                    task.pic = document.getElementById('detail-pic-input').value.trim() || 'Panitia';
+                    
+                    saveStateToFirebase();
+                    renderStatsAndDashboard();
+                    closeTaskDetailModal();
+                    showCustomAlert("✅ Rincian tugas berhasil disimpan!");
+                }
+            }
         }
 
-        // Helper untuk format tanggal ala screenshot "13/07/2026"
+        window.closeTaskDetailModal = function() {
+            document.getElementById('task-detail-modal').classList.add('hidden');
+            selectedTaskDetailId = null;
+        }
+
+        // Helper untuk format tanggal
         function formatDateForDisplay(dateStr) {
             if(!dateStr) return "-";
             const parts = dateStr.split('-');
@@ -970,7 +1304,11 @@
 
         window.updateValue = function(id, property, value) {
             const task = currentSOP.find(t => t.id === id);
-            if (task) { task[property] = value; saveStateToFirebase(); renderStatsAndDashboard(); }
+            if (task) { 
+                task[property] = value; 
+                saveStateToFirebase(); 
+                renderStatsAndDashboard(); 
+            }
         }
 
         window.addNewTask = function() {
@@ -980,16 +1318,16 @@
             });
             saveStateToFirebase();
             renderStatsAndDashboard();
+            openTaskDetail(nextId);
         }
 
         window.deleteTask = function(id) {
-            // Kita hilangkan konfirmasi bawaan browser agar code editor iframe tidak terblokir
             const msg = document.createElement("div");
-            msg.className = "fixed top-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded shadow-lg z-50 flex items-center gap-4";
+            msg.className = "fixed top-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl border border-slate-700/50 z-50 flex items-center gap-4 animate-bounce";
             msg.innerHTML = `
-                <span>Hapus tugas ini?</span>
-                <button id="btn-hapus-ya" class="bg-rose-500 px-3 py-1 rounded text-xs font-bold hover:bg-rose-600">Ya</button>
-                <button id="btn-hapus-batal" class="bg-slate-600 px-3 py-1 rounded text-xs hover:bg-slate-500">Batal</button>
+                <span class="text-xs font-semibold">Hapus tugas ini?</span>
+                <button id="btn-hapus-ya" class="bg-rose-500 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-rose-600 transition">Ya, Hapus</button>
+                <button id="btn-hapus-batal" class="bg-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-500 transition">Batal</button>
             `;
             document.body.appendChild(msg);
             
@@ -998,6 +1336,7 @@
                 saveStateToFirebase();
                 renderStatsAndDashboard();
                 document.body.removeChild(msg);
+                showCustomAlert("Tugas berhasil dihapus!");
             };
             document.getElementById("btn-hapus-batal").onclick = () => {
                 document.body.removeChild(msg);
@@ -1012,7 +1351,6 @@
             btn.classList.toggle('bg-white/20');
         }
 
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('kebab-menu');
             const button = event.target.closest('button[onclick="toggleMenu()"]');
@@ -1043,20 +1381,18 @@
             }
         }
 
-        // Custom alert to replace default browser alert
         function showCustomAlert(message) {
             const msg = document.createElement("div");
-            msg.className = "fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-xl z-50 animate-bounce";
+            msg.className = "fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-xl z-[90] animate-bounce text-xs font-bold";
             msg.innerHTML = `<span>${message}</span>`;
             document.body.appendChild(msg);
             setTimeout(() => {
                 if (document.body.contains(msg)) document.body.removeChild(msg);
-            }, 6000); // Diperlama agar notif error terbaca
+            }, 4000);
         }
 
         // Auto-Sync Bar Function (Real Fetch dari Google Sheets)
         window.syncSOPFromGoogleSheets = async function(isAuto = false) {
-            // Cegah penarikan Google Sheets berulang jika Firebase sudah berisi data agar tidak tertimpa
             if (isAuto && currentSOP.length > 0) return;
 
             const icon = document.getElementById('sync-icon');
@@ -1123,7 +1459,6 @@
             }
 
             if (newSOPList.length > 0) {
-                // Jangan hilangkan progress jika sudah diedit (gabungkan data lama dengan tarikan baru)
                 newSOPList.forEach(newTask => {
                     const existingTask = currentSOP.find(t => t.task === newTask.task && t.divisi === newTask.divisi);
                     if (existingTask) {
@@ -1137,7 +1472,6 @@
                 saveStateToFirebase();
                 renderStatsAndDashboard();
             } else if (currentSOP.length === 0) {
-                 // Fallback ke data default jika tarikan gagal dan kosong
                  currentSOP = [...DEFAULT_SOP];
                  saveStateToFirebase();
                  renderStatsAndDashboard();
@@ -1147,16 +1481,40 @@
             text.innerText = 'Tersinkron!';
             
             if(!isAuto) {
-                showCustomAlert("Berhasil menarik 110 data Jobdesk langsung dari Google Sheets!");
+                showCustomAlert("Berhasil menarik data Jobdesk langsung dari Google Sheets!");
             }
             
-            // Kembalikan teks setelah 3 detik
             setTimeout(() => {
                 text.innerText = 'Auto-Sync 30s';
             }, 3000);
         }
 
-        // Jalankan App
+        // Fungsi Toggle untuk Monitor Progres Divisi
+        window.toggleDivisionProgress = function() {
+            const wrapper = document.getElementById('divisi-progress-wrapper');
+            const chevron = document.getElementById('chevron-divisi-progress');
+            
+            if (wrapper.classList.contains('hidden')) {
+                wrapper.classList.remove('hidden');
+                // Menambahkan delay kecil agar animasi opacity berjalan smooth
+                setTimeout(() => {
+                    wrapper.classList.remove('opacity-0');
+                    wrapper.classList.remove('scale-y-0');
+                    wrapper.classList.add('mt-4');
+                }, 10);
+                chevron.classList.remove('rotate-180');
+            } else {
+                wrapper.classList.add('opacity-0');
+                wrapper.classList.add('scale-y-0');
+                wrapper.classList.remove('mt-4');
+                chevron.classList.add('rotate-180');
+                // Sembunyikan sepenuhnya setelah animasi selesai (300ms)
+                setTimeout(() => {
+                    wrapper.classList.add('hidden');
+                }, 300);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
