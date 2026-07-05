@@ -17,7 +17,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- === FIREBASE COMPAT SDK === -->
+    <!-- === TAMBAHAN FIREBASE UNTUK HTML === -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -29,10 +29,6 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 6px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
-        
-        /* Menyembunyikan scrollbar untuk filter bar tapi tetap bisa digeser */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
         select {
             -webkit-appearance: none;
@@ -263,8 +259,7 @@
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Saring Tugas Divisi KICKON:</span>
                     <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-900/40 px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800" id="filter-count-badge">0 Tugas Terpilih</span>
                 </div>
-                <!-- Kotak Menu Bar Horizontal Divisi -->
-                <div class="flex overflow-x-auto gap-3 pb-2 scrollbar-hide" id="filter-buttons-container">
+                <div class="flex flex-wrap gap-2" id="filter-buttons-container">
                     <!-- Will render dynamically -->
                 </div>
             </div>
@@ -283,12 +278,12 @@
                     
                     <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
                         <div class="flex items-center gap-2">
-                            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Filter Status:</label>
+                            <label class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Urutkan:</label>
                             <select id="task-sorting-select" onchange="changeSorting(this.value)" class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs py-2 px-3 rounded-xl cursor-pointer font-medium text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900 outline-none transition-colors">
-                                <option value="semua_urut_deadline">Semua Status (Urut Tenggat) 🗓️</option>
-                                <option value="status_belum">Hanya: Belum Mulai 📌</option>
-                                <option value="status_progress">Hanya: On Progress ⚡</option>
-                                <option value="status_selesai">Hanya: Selesai ✅</option>
+                                <option value="deadline_asc">Tenggat Terdekat 🗓️</option>
+                                <option value="status_belum">Status: Belum Mulai 📌</option>
+                                <option value="status_progress">Status: On Progress ⚡</option>
+                                <option value="status_selesai">Status: Selesai ✅</option>
                             </select>
                         </div>
                         
@@ -309,7 +304,7 @@
                         <thead>
                             <tr class="bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase border-b-2 border-slate-100 dark:border-slate-700 tracking-wider transition-colors">
                                 <th class="py-4 px-5 w-36">Divisi</th>
-                                <th class="py-4 px-5">SOP / Rincian Jobdesk Lengkap (Bisa Diklik)</th>
+                                <th class="py-4 px-5">SOP / Rincian Jobdesk Lengkap</th>
                                 <th class="py-4 px-5 w-36">Progress</th>
                                 <th class="py-4 px-5 w-32">Deadline</th>
                                 <th class="py-4 px-5 w-36">PIC</th>
@@ -320,67 +315,11 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- PAGINATION CONTROLS -->
-                <div class="p-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80 flex items-center justify-between transition-colors">
-                    <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400" id="pagination-info">Menampilkan 0 tugas</span>
-                    <div class="flex items-center gap-2">
-                        <button onclick="changePage(-1)" id="btn-prev-page" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm" title="Kembali 15 Baris">
-                            <i class="fa-solid fa-chevron-up"></i>
-                        </button>
-                        <button onclick="changePage(1)" id="btn-next-page" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition shadow-sm" title="Muat 15 Baris Berikutnya">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                    </div>
-                </div>
-
             </div>
 
         </div>
 
     </main>
-
-    <!-- TASK DETAIL POP-UP MODAL -->
-    <div id="task-detail-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden">
-            <div class="px-5 py-4 flex justify-between items-center border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80">
-                <h3 class="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
-                    <i class="fa-solid fa-file-lines text-indigo-500"></i> Detail Rincian Jobdesk
-                </h3>
-                <button onclick="closeTaskDetailModal()" class="text-slate-400 hover:text-rose-500 transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <div class="p-6 space-y-4">
-                <div>
-                    <span id="detail-divisi" class="text-[10px] font-bold px-2.5 py-1 rounded-md border tracking-wider"></span>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5">Deskripsi / Rincian Lengkap Tugas</p>
-                    <p id="detail-task" class="text-sm text-slate-700 dark:text-slate-200 font-medium leading-relaxed bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700"></p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
-                        <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Status Progress</p>
-                        <p id="detail-progress" class="text-xs font-bold"></p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
-                        <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Tenggat Waktu</p>
-                        <p id="detail-deadline" class="text-xs font-bold text-slate-700 dark:text-slate-200"></p>
-                    </div>
-                </div>
-                <div class="bg-slate-50 dark:bg-slate-700/30 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Penanggung Jawab (PIC)</p>
-                    <p id="detail-pic" class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-user-circle text-slate-400"></i> <span></span>
-                    </p>
-                </div>
-            </div>
-            <div class="bg-slate-50 dark:bg-slate-900 px-6 py-4 flex justify-end border-t border-slate-100 dark:border-slate-700">
-                <button onclick="closeTaskDetailModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow-md">Tutup</button>
-            </div>
-        </div>
-    </div>
 
     <!-- INTERACTIVE MILESTONE MANAGER MODAL WITH SEARCH -->
     <div id="milestone-manager-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
@@ -426,7 +365,7 @@
         </div>
     </div>
 
-   <!-- KODE JAVASCRIPT & FIREBASE -->
+    <!-- KODE JAVASCRIPT & FIREBASE -->
     <script>
         // =========================================================
         // 1. MASUKKAN KONFIGURASI FIREBASE KAMU DI BAWAH INI
@@ -454,7 +393,6 @@
         let activeFilter = 'All';
         let searchQuery = '';
         let currentSort = 'deadline_asc';
-        let currentPage = 1;
         let syncInterval;
 
         // Data Tambahan untuk Roadshow & Milestones
@@ -474,7 +412,7 @@
         let activeMilestoneTitle = '';
         let milestoneSearchQuery = '';
 
-        // 2. ID SPREADSHEET (Untuk menarik data dari Google Sheets public)
+        // 2. ID SPREADSHEET (Untuk menarik 110 data)
         const SOP_SHEET_ID = '1SKiY08EURsNnpxqIfl5CQtpUtBFt_lEPCvBBYUTrnbo'; 
 
         // DATA DEFAULT CADANGAN 
@@ -488,7 +426,7 @@
             { id: 7, divisi: 'Finance', task: 'Menyusun proyeksi anggaran pengeluaran KICKON serta kebutuhan dana...', deadline: '2026-07-25', progress: 'Selesai', pic: 'Keuangan' }
         ];
 
-        // Definisi Warna Divisi
+        // Definisi Warna Divisi (menyesuaikan dark mode otomatis via tailwind opacity)
         const DIVISI_STYLES = {
             'COC': { bg: 'bg-rose-50 dark:bg-rose-900/20', text: 'text-rose-600 dark:text-rose-400', border: 'border-rose-200 dark:border-rose-800/50' },
             'Pertandingan': { bg: 'bg-emerald-50 dark:bg-emerald-900/20', text: 'text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800/50' },
@@ -541,22 +479,8 @@
             } catch (error) { console.error("Error fetch schools:", error); }
         }
 
-        async function initAuth() {
-            if (!auth) return;
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await auth.signInWithCustomToken(__initial_auth_token);
-                } else {
-                    await auth.signInAnonymously();
-                }
-            } catch (error) {
-                console.error("Authentication failed:", error);
-                useLocalFallback();
-            }
-        }
-
         // Start App
-        async function initApp() {
+        function initApp() {
             // Load theme preference
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -564,32 +488,20 @@
             }
 
             if(auth && db) {
-                await initAuth();
-                
-                // Track auth state
-                auth.onAuthStateChanged(user => {
-                    if (user) {
-                        // Strict path for platform
-                        const docRef = db.collection('artifacts').doc(appId)
-                                         .collection('public').doc('data')
-                                         .collection('kickon_dashboard').doc('main_doc');
-
-                        if (unsubscribeSnapshot) unsubscribeSnapshot();
-                        
-                        unsubscribeSnapshot = docRef.onSnapshot((doc) => {
-                            if (doc.exists) {
-                                currentSOP = doc.data().sopData || [];
-                                if(doc.data().roadshowData) prioritasRoadshow = doc.data().roadshowData;
-                                if (currentSOP.length === 0) syncSOPFromGoogleSheets(true);
-                            } else {
-                                syncSOPFromGoogleSheets(true);
-                            }
-                            renderStatsAndDashboard();
-                        }, (error) => {
-                            console.error("Firestore Listen Error:", error);
-                            useLocalFallback();
-                        });
-                    }
+                auth.signInAnonymously().then(() => {
+                    db.collection("kickon_database").doc("dashboard_utama").onSnapshot((doc) => {
+                        if (doc.exists) {
+                            currentSOP = doc.data().sopData || [];
+                            if(doc.data().roadshowData) prioritasRoadshow = doc.data().roadshowData;
+                            if (currentSOP.length === 0) syncSOPFromGoogleSheets(true);
+                        } else {
+                            syncSOPFromGoogleSheets(true);
+                        }
+                        renderStatsAndDashboard();
+                    });
+                }).catch(e => {
+                    console.log("Firebase Auth Error, using local data", e);
+                    useLocalFallback();
                 });
             } else {
                 useLocalFallback();
@@ -613,17 +525,11 @@
         }
 
         function saveStateToFirebase() {
-            if(db && auth && auth.currentUser) {
-                const docRef = db.collection('artifacts').doc(appId)
-                                 .collection('public').doc('data')
-                                 .collection('kickon_dashboard').doc('main_doc');
-                                 
-                docRef.set({ 
+            if(db) {
+                db.collection("kickon_database").doc("dashboard_utama").set({ 
                     sopData: currentSOP,
                     roadshowData: prioritasRoadshow
-                }, { merge: true }).catch(err => {
-                    console.error("Failed to save state:", err);
-                });
+                }, { merge: true });
             }
         }
 
@@ -804,28 +710,22 @@
 
         function renderFilters() {
             const container = document.getElementById('filter-buttons-container');
-            container.innerHTML = ''; // Bersihkan container untuk re-render state
+            if(container.innerHTML !== '') return; // Hanya render sekali
             
             const createBtn = (id, text, isActive) => {
                 const btn = document.createElement('button');
+                btn.id = `filter-btn-${id}`;
                 btn.onclick = () => selectFilter(id);
                 btn.innerText = text;
-                
-                // Styling dinamis jika sedang aktif dipencet vs tidak dipencet
-                if (isActive) {
-                    btn.className = "shrink-0 bg-indigo-600 dark:bg-indigo-500 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md shadow-indigo-200 dark:shadow-none transition-all";
-                } else {
-                    btn.className = "shrink-0 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-5 py-2 rounded-xl text-xs border border-slate-200 dark:border-slate-600 transition-all";
-                }
+                btn.className = isActive 
+                    ? "bg-indigo-900 dark:bg-indigo-500 text-white font-semibold px-4 py-1.5 rounded-full text-xs shadow-sm transition-colors"
+                    : "bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-4 py-1.5 rounded-full text-xs border border-slate-200 dark:border-slate-600 transition-colors";
                 return btn;
             };
 
-            // Tambahkan tombol filter utama (Semua Divisi)
-            container.appendChild(createBtn('All', 'Semua Divisi', activeFilter === 'All'));
-            
-            // Loop data DIVISI_STYLES untuk render nama-nama divisi menjadi tombol bar
+            container.appendChild(createBtn('All', 'Semua Divisi', true));
             Object.keys(DIVISI_STYLES).forEach(div => {
-                container.appendChild(createBtn(div, div, activeFilter === div));
+                container.appendChild(createBtn(div, div, false));
             });
         }
 
@@ -834,7 +734,6 @@
             if(prevActive) prevActive.className = "bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-4 py-1.5 rounded-full text-xs border border-slate-200 dark:border-slate-600 transition-colors";
             
             activeFilter = divisi;
-            currentPage = 1; // Reset halaman saat filter berubah
             
             const currentActive = document.getElementById(`filter-btn-${activeFilter}`);
             if(currentActive) currentActive.className = "bg-indigo-900 dark:bg-indigo-500 text-white font-semibold px-4 py-1.5 rounded-full text-xs shadow-sm transition-colors";
@@ -842,60 +741,28 @@
             renderTable();
         }
 
-        window.searchTasks = function() { searchQuery = document.getElementById('task-search-bar').value.toLowerCase(); currentPage = 1; renderTable(); }
-        window.changeSorting = function(val) { currentSort = val; currentPage = 1; renderTable(); }
-        
-        window.changePage = function(direction) {
-            currentPage += direction;
-            renderTable();
-        }
+        window.searchTasks = function() { searchQuery = document.getElementById('task-search-bar').value.toLowerCase(); renderTable(); }
+        window.changeSorting = function(val) { currentSort = val; renderTable(); }
 
         function renderTable() {
             const tbody = document.getElementById('spreadsheet-body');
             tbody.innerHTML = '';
 
-            // 1. Base Filter (Saring Divisi & Pencarian)
-            let filtered = currentSOP.filter(t => 
+            const filtered = currentSOP.filter(t => 
                 (activeFilter === 'All' || t.divisi === activeFilter) && 
                 (t.task.toLowerCase().includes(searchQuery) || t.pic.toLowerCase().includes(searchQuery))
             );
 
-            // 2. Saring Status (Dari Dropdown Filter)
-            if (currentSort === 'status_belum') {
-                filtered = filtered.filter(t => t.progress === 'Belum Mulai');
-            } else if (currentSort === 'status_progress') {
-                filtered = filtered.filter(t => t.progress === 'On Progress');
-            } else if (currentSort === 'status_selesai') {
-                filtered = filtered.filter(t => t.progress === 'Selesai');
-            }
-
-            // 3. Sorting Default (Selalu urutkan dari Tenggat Terdekat agar rapi)
-            filtered.sort((a, b) => new Date(a.deadline || '2099-12-31') - new Date(b.deadline || '2099-12-31'));
-
             document.getElementById('filter-count-badge').innerText = `${filtered.length} Tugas Terpilih`;
 
-            // 4. Sistem Paginasi (15 per halaman)
-            const rowsPerPage = 15;
-            const totalPages = Math.ceil(filtered.length / rowsPerPage) || 1;
-            
-            if (currentPage > totalPages) currentPage = totalPages;
-            if (currentPage < 1) currentPage = 1;
-            
-            const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = startIndex + rowsPerPage;
-            const paginatedTasks = filtered.slice(startIndex, endIndex);
-
-            // 5. Update UI Paginasi
-            const pageInfo = document.getElementById('pagination-info');
-            if (pageInfo) {
-                const endText = Math.min(endIndex, filtered.length);
-                pageInfo.innerText = filtered.length > 0 ? `Menampilkan ${startIndex + 1} - ${endText} dari total ${filtered.length} tugas` : 'Tidak ada tugas yang sesuai.';
-                
-                document.getElementById('btn-prev-page').disabled = currentPage === 1;
-                document.getElementById('btn-next-page').disabled = currentPage === totalPages || filtered.length === 0;
+            let sortedFiltered = [...filtered];
+            if (currentSort === 'deadline_asc') {
+                sortedFiltered.sort((a, b) => new Date(a.deadline || '2099-12-31') - new Date(b.deadline || '2099-12-31'));
+            } else if (currentSort === 'status_belum') {
+                sortedFiltered.sort((a, b) => (a.progress === 'Belum Mulai' ? -1 : b.progress === 'Belum Mulai' ? 1 : 0));
             }
 
-            paginatedTasks.forEach(task => {
+            sortedFiltered.forEach(task => {
                 const style = getStyle(task.divisi);
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50/50 dark:hover:bg-slate-700/50 transition-colors group';
@@ -906,10 +773,10 @@
                             ${Object.keys(DIVISI_STYLES).map(div => `<option value="${div}" ${task.divisi === div ? 'selected' : ''}>${div}</option>`).join('')}
                         </select>
                     </td>
-                    <td class="py-3 px-5 font-medium text-slate-700 dark:text-slate-200 cursor-pointer group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" onclick="openTaskDetail(${task.id})" title="Klik untuk lihat Detail / Deskripsi penuh">
+                    <td class="py-3 px-5 font-medium text-slate-700 dark:text-slate-200">
                         <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-expand text-[10px] text-slate-300 dark:text-slate-500 group-hover:text-indigo-500 transition-colors"></i>
-                            <span class="truncate max-w-xs xl:max-w-md">${task.task}</span>
+                            <i class="fa-solid fa-expand text-[10px] text-slate-300 dark:text-slate-500"></i>
+                            <span class="truncate max-w-sm" title="${task.task}">${task.task}</span>
                         </div>
                     </td>
                     <td class="py-3 px-5">
@@ -923,7 +790,7 @@
                         </select>
                     </td>
                     <td class="py-3 px-5 text-slate-600 dark:text-slate-400">
-                        <input type="text" value="${formatDateForDisplay(task.deadline)}" readonly class="bg-transparent border-0 text-[11px] w-full cursor-default" />
+                        <input type="text" value="${formatDateForDisplay(task.deadline)}" readonly class="bg-transparent border-0 text-[11px] w-full cursor-default" title="Edit via modal" />
                     </td>
                     <td class="py-3 px-5 text-slate-700 dark:text-slate-300">
                         <div class="flex items-center justify-between">
@@ -936,39 +803,6 @@
                 `;
                 tbody.appendChild(tr);
             });
-        }
-        
-        // Logika Pop-up Modal Rincian Tugas
-        window.openTaskDetail = function(id) {
-            const task = currentSOP.find(t => t.id === id);
-            if(!task) return;
-            
-            const style = getStyle(task.divisi);
-            const divBadge = document.getElementById('detail-divisi');
-            divBadge.className = `text-[10px] font-bold px-2.5 py-1 rounded-md border tracking-wider ${style.bg} ${style.text} ${style.border}`;
-            divBadge.innerText = task.divisi;
-            
-            document.getElementById('detail-task').innerText = task.task;
-            document.getElementById('detail-deadline').innerText = formatDateForDisplay(task.deadline);
-            document.getElementById('detail-pic').innerHTML = `<i class="fa-solid fa-user-circle text-slate-400 text-sm"></i> <span>${task.pic}</span>`;
-            
-            const progressEl = document.getElementById('detail-progress');
-            if (task.progress === 'Selesai') {
-                progressEl.className = 'text-xs font-bold text-emerald-600 dark:text-emerald-400';
-                progressEl.innerText = '✅ Selesai';
-            } else if (task.progress === 'On Progress') {
-                progressEl.className = 'text-xs font-bold text-indigo-600 dark:text-indigo-400';
-                progressEl.innerText = '⚡ On Progress';
-            } else {
-                progressEl.className = 'text-xs font-bold text-slate-500 dark:text-slate-400';
-                progressEl.innerText = '📌 Belum Mulai';
-            }
-
-            document.getElementById('task-detail-modal').classList.remove('hidden');
-        }
-
-        window.closeTaskDetailModal = function() {
-            document.getElementById('task-detail-modal').classList.add('hidden');
         }
 
         // Helper untuk format tanggal ala screenshot "13/07/2026"
@@ -994,25 +828,11 @@
         }
 
         window.deleteTask = function(id) {
-            // Kita hilangkan konfirmasi bawaan browser agar code editor iframe tidak terblokir
-            const msg = document.createElement("div");
-            msg.className = "fixed top-10 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded shadow-lg z-50 flex items-center gap-4";
-            msg.innerHTML = `
-                <span>Hapus tugas ini?</span>
-                <button id="btn-hapus-ya" class="bg-rose-500 px-3 py-1 rounded text-xs font-bold hover:bg-rose-600">Ya</button>
-                <button id="btn-hapus-batal" class="bg-slate-600 px-3 py-1 rounded text-xs hover:bg-slate-500">Batal</button>
-            `;
-            document.body.appendChild(msg);
-            
-            document.getElementById("btn-hapus-ya").onclick = () => {
+            if(confirm("Hapus tugas ini?")) {
                 currentSOP = currentSOP.filter(t => t.id !== id);
                 saveStateToFirebase();
                 renderStatsAndDashboard();
-                document.body.removeChild(msg);
-            };
-            document.getElementById("btn-hapus-batal").onclick = () => {
-                document.body.removeChild(msg);
-            };
+            }
         }
 
         // Kebab Menu Toggle
@@ -1052,17 +872,6 @@
                 icon.classList.replace('fa-sun', 'fa-moon');
                 icon.classList.replace('text-amber-400', 'text-indigo-500');
             }
-        }
-
-        // Custom alert to replace default browser alert
-        function showCustomAlert(message) {
-            const msg = document.createElement("div");
-            msg.className = "fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-lg shadow-xl z-50 animate-bounce";
-            msg.innerHTML = `<span>${message}</span>`;
-            document.body.appendChild(msg);
-            setTimeout(() => {
-                if (document.body.contains(msg)) document.body.removeChild(msg);
-            }, 3000);
         }
 
         // Auto-Sync Bar Function (Real Fetch dari Google Sheets)
@@ -1144,18 +953,13 @@
                 currentSOP = newSOPList;
                 saveStateToFirebase();
                 renderStatsAndDashboard();
-            } else if (currentSOP.length === 0) {
-                 // Fallback ke data default jika tarikan gagal dan kosong
-                 currentSOP = [...DEFAULT_SOP];
-                 saveStateToFirebase();
-                 renderStatsAndDashboard();
             }
 
             icon.classList.remove('fa-spin');
             text.innerText = 'Tersinkron!';
             
             if(!isAuto) {
-                showCustomAlert("Berhasil menarik 110 data Jobdesk langsung dari Google Sheets!");
+                alert("Berhasil menarik 110 data Jobdesk langsung dari Google Sheets!");
             }
             
             // Kembalikan teks setelah 3 detik
@@ -1165,7 +969,7 @@
         }
 
         // Jalankan App
-        window.addEventListener('DOMContentLoaded', initApp);
+        initApp();
     </script>
 </body>
 </html>
