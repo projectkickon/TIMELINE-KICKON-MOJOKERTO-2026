@@ -17,7 +17,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- === FIREBASE COMPAT SDK === -->
+    <!-- === TAMBAHAN FIREBASE UNTUK HTML === -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -433,17 +433,20 @@
         // =========================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCWKfbrJXNUerJyiFtBRO8oqLRPbw4qhtg",
-  authDomain: "kickon-sop-dashboard.firebaseapp.com",
-  projectId: "kickon-sop-dashboard",
-  storageBucket: "kickon-sop-dashboard.firebasestorage.app",
-  messagingSenderId: "231877963387",
-  appId: "1:231877963387:web:e1db93ee8948e26682bcde"
+            authDomain: "kickon-sop-dashboard.firebaseapp.com",
+            projectId: "kickon-sop-dashboard",
+            storageBucket: "kickon-sop-dashboard.firebasestorage.app",
+            messagingSenderId: "231877963387",
+            appId: "1:231877963387:web:e1db93ee8948e26682bcde"
         };
 
-        // Initialize Firebase ONLY IF config is provided (prevents crash if empty)
+        // App ID Global fallback (Memperbaiki ReferenceError "appId is not defined")
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kickon-futsal-2026';
+
+        // Initialize Firebase 
         let db, auth;
         try {
-            if(firebaseConfig.apiKey !== "AIzaSyCWKfbrJXNUerJyiFtBRO8oqLRPbw4qhtg") {
+            if(firebaseConfig.apiKey) {
                 firebase.initializeApp(firebaseConfig);
                 db = firebase.firestore();
                 auth = firebase.auth();
@@ -456,6 +459,7 @@
         let currentSort = 'deadline_asc';
         let currentPage = 1;
         let syncInterval;
+        let unsubscribeSnapshot = null;
 
         // Data Tambahan untuk Roadshow & Milestones
         let prioritasRoadshow = [
@@ -545,7 +549,14 @@
             if (!auth) return;
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await auth.signInWithCustomToken(__initial_auth_token);
+                    try {
+                        // Mencoba login dengan token default Canvas
+                        await auth.signInWithCustomToken(__initial_auth_token);
+                    } catch (tokenError) {
+                        // Jika token salah alamat (karena Anda menggunakan konfigurasi project Firebase sendiri), lakukan Fallback Anonim
+                        console.warn("Custom token tidak cocok, otomatis beralih ke Anonim:", tokenError.message);
+                        await auth.signInAnonymously();
+                    }
                 } else {
                     await auth.signInAnonymously();
                 }
@@ -595,10 +606,12 @@
                 useLocalFallback();
             }
 
-            // Start Auto-Sync Timer
-            syncInterval = setInterval(() => {
-                syncSOPFromGoogleSheets(true);
-            }, 30000); // 30 Seconds
+            // Hapus interval ini jika Firebase sudah berjalan agar tidak terjadi tabrakan update
+            if (!auth || !db) {
+                syncInterval = setInterval(() => {
+                    syncSOPFromGoogleSheets(true);
+                }, 30000); 
+            }
             
             // Tarik daftar sekolah
             fetchSchoolsFromGoogleSheets();
@@ -1067,6 +1080,9 @@
 
         // Auto-Sync Bar Function (Real Fetch dari Google Sheets)
         window.syncSOPFromGoogleSheets = async function(isAuto = false) {
+            // Jangan tarik otomatis dari Sheets jika Firebase Real-time sudah aktif (hindari saling tindih)
+            if (isAuto && db && auth) return;
+
             const icon = document.getElementById('sync-icon');
             const text = document.getElementById('sync-text');
             
