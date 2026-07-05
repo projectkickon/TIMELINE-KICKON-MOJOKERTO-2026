@@ -55,53 +55,35 @@
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
         }
 
-        /* Customisasi Intro.js agar sesuai tema UI & Responsif di HP */
+        /* =======================================================
+           CUSTOMISASI INTRO.JS (TUTORIAL POPUP)
+           ======================================================= */
         .introjs-tooltip {
             font-family: 'Plus Jakarta Sans', sans-serif !important;
             border-radius: 16px !important;
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
             border: 1px solid #e2e8f0 !important;
-            max-width: 400px !important; 
             box-sizing: border-box !important;
-        }
-        
-        /* Memaksa Popup selalu di tengah layar pada HP agar tidak keluar pinggir layar */
-        @media (max-width: 640px) {
-            .introjs-tooltip {
-                position: fixed !important;
-                left: 50% !important;
-                top: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                margin: 0 !important;
-                width: 90vw !important;
-                max-width: 350px !important;
-                bottom: auto !important;
-                right: auto !important;
-            }
-            .introjs-arrow {
-                display: none !important; /* Sembunyikan panah penunjuk karena melayang di tengah */
-            }
-            .introjs-button {
-                font-size: 10px !important;
-                padding: 8px !important;
-            }
         }
         
         .introjs-tooltiptext { padding: 15px !important; font-size: 13px !important; color: #475569 !important; line-height: 1.6 !important; }
         .introjs-tooltip-title { font-weight: 800 !important; color: #1e1b4b !important; font-size: 15px !important; display: flex !important; align-items: center !important; gap: 8px !important; }
         
-        /* Penyesuaian Flexbox Container Tombol */
+        /* Layout Dasar Tombol */
         .introjs-tooltipbuttons {
             display: flex !important;
             align-items: center !important;
-            justify-content: flex-end !important; 
-            flex-wrap: wrap !important;
+            justify-content: flex-end !important; /* Semua tombol merapat ke kanan */
             padding: 12px 15px !important;
             gap: 8px !important;
             border-top: 1px solid #f1f5f9 !important;
+            box-sizing: border-box !important;
         }
 
         .introjs-button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             border-radius: 8px !important; 
             padding: 8px 12px !important; 
             font-weight: 700 !important; 
@@ -109,28 +91,102 @@
             font-size: 11px !important;
             transition: all 0.2s !important; 
             border: none !important;
-            white-space: nowrap !important;
             text-align: center !important;
             box-sizing: border-box !important;
-            float: none !important; /* Mematikan float bawaan intro.js yang merusak posisi */
+            float: none !important; /* Mematikan float bawaan intro.js */
+            margin: 0 !important;
+            text-decoration: none !important;
         }
         
-        .introjs-nextbutton { background: #4f46e5 !important; color: white !important; box-shadow: 0 4px 6px -1px rgb(79 70 229 / 0.3) !important; }
+        /* Indikator halaman ditaruh di paling kiri jauh */
+        .introjs-bullets {
+            order: 0 !important;
+            margin-right: auto !important; /* Dorong tombol lainnya ke kanan */
+            padding-top: 0 !important;
+            display: block !important;
+            float: none !important;
+        }
+        
+        /* Tombol Selanjutnya/Selesai dibuat Lingkaran */
+        .introjs-nextbutton { 
+            background: #4f46e5 !important; 
+            color: white !important; 
+            box-shadow: 0 4px 6px -1px rgb(79 70 229 / 0.3) !important; 
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important; /* Lingkaran penuh */
+            padding: 0 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 12px !important;
+            order: 3 !important; /* Paling Kanan */
+            text-decoration: none !important;
+        }
         .introjs-nextbutton:hover { background: #4338ca !important; }
-        .introjs-prevbutton { background: #f1f5f9 !important; color: #475569 !important; text-shadow: none !important; }
+        
+        .introjs-prevbutton { 
+            background: #f1f5f9 !important; 
+            color: #475569 !important; 
+            text-shadow: none !important; 
+            order: 2 !important; /* Di tengah */
+            display: inline-flex !important;
+            text-decoration: none !important;
+        }
         .introjs-prevbutton:hover { background: #e2e8f0 !important; }
         
         /* Styling khusus tombol Lewati */
         .introjs-skipbutton { 
             color: #64748b !important; 
             background: transparent !important; 
-            margin-right: auto !important; /* Mendorong tombol ini ke ujung kiri sendirian */
+            order: 1 !important; /* Paling Kiri dari kelompok tombol */
+            padding: 8px 10px !important;
+            display: inline-flex !important;
+            text-decoration: none !important;
         }
         .introjs-skipbutton:hover { color: #ef4444 !important; background: #fee2e2 !important; }
         
         .introjs-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
         .introjs-bullets ul li a { border-radius: 4px !important; }
         .introjs-bullets ul li a.active { background: #4f46e5 !important; }
+
+        /* KHUSUS TAMPILAN HP / LAYAR KECIL */
+        @media (max-width: 640px) {
+            /* Memaksa popup terkunci kokoh di tengah layar */
+            .introjs-tooltip {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                bottom: auto !important;
+                right: auto !important;
+                margin: 0 !important; 
+                transform: translate(-50%, -50%) !important;
+                width: 90vw !important; 
+                max-width: 340px !important;
+                z-index: 9999999 !important; 
+            }
+            .introjs-arrow {
+                display: none !important; 
+            }
+            /* Sembunyikan bulatan halaman di HP agar menghemat ruang */
+            .introjs-bullets {
+                display: none !important;
+            }
+            /* Pastikan tombol tetap sejajar di HP */
+            .introjs-tooltipbuttons {
+                flex-wrap: nowrap !important;
+                justify-content: flex-end !important;
+            }
+            .introjs-prevbutton { padding: 8px 10px !important; font-size: 10px !important; }
+            .introjs-skipbutton { padding: 8px 10px !important; font-size: 10px !important; }
+        }
+
+        /* KHUSUS TAMPILAN LAPTOP / LAYAR BESAR */
+        @media (min-width: 641px) {
+            .introjs-tooltip {
+                max-width: 400px !important; 
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen text-slate-800 dark:text-slate-200 flex flex-col bg-slate-50/50 dark:bg-slate-900 transition-colors duration-300">
@@ -784,9 +840,9 @@
         // FUNGSI TUTORIAL ONBOARDING (VIDEO GAME STYLE)
         window.startTutorial = function() {
             introJs().setOptions({
-                nextLabel: 'Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>',
-                prevLabel: '<i class="fa-solid fa-arrow-left mr-1"></i> Kembali',
-                doneLabel: 'Mulai Bekerja! 🚀',
+                nextLabel: '<i class="fa-solid fa-chevron-right"></i>',
+                prevLabel: '<i class="fa-solid fa-chevron-left mr-1"></i> Kembali',
+                doneLabel: '<i class="fa-solid fa-check"></i>',
                 skipLabel: 'Lewati',
                 showStepNumbers: true,
                 showProgress: true,
@@ -1209,7 +1265,9 @@
                             </span>
                             <span class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold bg-slate-100 dark:bg-slate-700/50 px-2 py-0.5 rounded">PIC: ${task.pic}</span>
                         </div>
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-200 leading-snug">${task.task}</h4>
+                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100">
+                            ${task.task}
+                        </h4>
                     </div>
                     <div class="shrink-0 flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
                         <select onchange="updateValue(${task.id}, 'progress', this.value); renderMilestoneTasks();" class="text-[10px] font-bold py-1.5 px-2 rounded-lg border focus:ring-1 outline-none w-full md:w-auto cursor-pointer ${
@@ -1284,7 +1342,7 @@
                 if (isActive) {
                     btn.className = "shrink-0 bg-indigo-600 dark:bg-indigo-500 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md shadow-indigo-200 dark:shadow-none transition-all";
                 } else {
-                    btn.className = "shrink-0 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-5 py-2 rounded-xl text-xs border border-slate-200 dark:border-slate-600 transition-all";
+                    btn.className = "shrink-0 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 font-medium px-5 py-2 rounded-xl text-xs border border-slate-200/80 dark:border-slate-600 transition-all";
                 }
                 return btn;
             };
@@ -1557,7 +1615,7 @@
             
             const sheetsMapping = [
                 { div: 'COC', sheet: 'Chief Organizing Committee ' },
-                { div: 'Pertandingan', sheet: 'Match Commisioner' },
+                { div: 'Pertandingan', sheet: 'Match Commissioner' },
                 { div: 'Activation', sheet: 'Project activation' },
                 { div: 'Finance', sheet: 'finance' },
                 { div: 'Ticketing', sheet: 'Tiketing' },
